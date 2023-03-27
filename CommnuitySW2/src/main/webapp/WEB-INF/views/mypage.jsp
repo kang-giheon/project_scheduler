@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h3>마이페이지 화면 구현 예정</h3>
 </body>
 </html>

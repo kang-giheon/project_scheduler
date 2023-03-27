@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h3>회원가입 화면 구현 예정</h3>
 </body>
 </html>
