@@ -32,6 +32,12 @@
                 <input type="password" name="password" placeholder="비밀번호 다시 입력" required>  
             </div>
             <div class="ip-div">
+                <input type="text" name="phone" placeholder="전화번호 입력" required>  
+            </div>
+            <div class="ip-div">
+                <input type="text" name="email" placeholder="이메일 입력" required>  
+            </div>
+            <div class="ip-div">
                 <button type="submit" class="bt">회원가입</button>                
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />  
             </div>
