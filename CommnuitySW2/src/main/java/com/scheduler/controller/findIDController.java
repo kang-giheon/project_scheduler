@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/join")
-public class JoinController {
+@RequestMapping("/findID")
+public class findIDController {
 
 	@RequestMapping
 	public String Main(Model model) {
 		
-		return "join";
+		return "findID";
 	}
 
 }

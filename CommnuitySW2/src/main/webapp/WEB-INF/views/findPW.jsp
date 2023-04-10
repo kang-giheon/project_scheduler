@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>비밀번호 찾기</title>
 </head>
 <body>
-	<h3>마이페이지 화면 구현 예정</h3>
+
 </body>
 </html>
