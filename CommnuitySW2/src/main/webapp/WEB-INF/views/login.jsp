@@ -1,46 +1,51 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>로그인</title>
-	<link href="./resources/css/main.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Scheduler Community</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+     	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./resources/css/main.css">
+    
 </head>
+
 <body>
-	<nav class="login-head-area">
-		<div>
-			<a href="./"><font color="white"; size=5;>메인 화면으로 돌아가기</font></a>
-		</div>
-	</nav>
-	  <div class="login-area1">
-        <div>
-            <h1 class="login-font">로그인</h1>
+	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
+	
+    <div id="container">
+      <div class="login-box">
+        <div id="loginBoxTitle">로그인</div>
+        <div class="form-group">
+            <label>아이디</label>
+            <input type="text" name="userId" id="userId" class="form-control" value="" ime-mode:disabled">
         </div>
+        <div class="form-group">
+            <label>비밀번호</label>
+            <input type="password" name="password" id="password" class="form-control" value="" autocomplete="off">
+        </div>
+        <input type="button" id="login-btn-box" value="로그인" >
+        <div class="ot-btn">
+        	<div class="ot-btn-in">
+	           <span><a href="./join">회원가입</a></span>
+	       	</div>
+	       	<div class="ot-btn-in">
+	           <span><a href="./findID">아이디 찾기</a></span>
+	       	</div>
+	       	<div class="ot-btn-in">
+	           <span><a href="./findPW">비밀번호 찾기</a></span>
+	       	</div>
+        </div>
+      </div>
     </div>
-    <div class="login-area2">
-        <form class="login-area2" action="./"; method="post">  
-            <div class="ip-div">
-                <input type="text" name="userId" placeholder="아이디 입력" required autofocus> 
-            </div>
-            <div class="ip-div">
-                <input type="password" name="password" placeholder="비밀번호 입력" required>  
-            </div>
-            <div class="ip-div">
-                <button type="submit" class="bt">로그인</button>                
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />  
-            </div>
-        </form>
-    </div>
-    <div class="login-area3">
-       	<div class="bt-join">
-           <span><a href="./join">회원가입</a></span>
-       	</div>
-       	<div class="bt-join">
-           <span><a href="./findID">아이디 찾기</a></span>
-       	</div>
-       	<div class="bt-join">
-           <span><a href="./findPW">비밀번호 찾기</a></span>
-       	</div>
-    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+    	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
