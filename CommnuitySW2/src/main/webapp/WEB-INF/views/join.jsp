@@ -27,7 +27,8 @@
         </div>
         <div class="form-group">
             <label>아이디</label>
-            <input type="text" name="userId" placeholder="아이디 입력" class="form-control" value="" autocomplete="off" required>  
+            <input type="text" name="userId" placeholder="아이디 입력" class="form-control2" value="" autocomplete="off" required>  
+            <input type="button" class="check" value="중복확인">
         </div>
         <div class="form-group">
             <label>비밀번호</label>
@@ -64,5 +65,11 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
     	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="./resources/js/jquery.js"></script>
+	<script src="./resources/js/tether.min.js"></script>
+	<script src="./resources/js/bootstrap.min.js"></script>
+	<script src="./resources/js/perfect-scrollbar.min.js"></script>
+	<script src="./resources/js/common.js"></script>
+
 </body>
 </html>

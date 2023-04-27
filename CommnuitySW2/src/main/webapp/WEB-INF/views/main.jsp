@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="./resources/css/perfect-scrollbar.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/style.css">
+	<link rel="stylesheet" href="./resources/css/main.css">
 </head>
 <body>
 
@@ -21,16 +22,13 @@
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
 
 	<div id="content">
-	    <div class="card-columns">
+	    <div class="div-fl">
 	      <div class="card">
-	        <img class="card-img-top img-fluid" src="https://img.freepik.com/free-vector/calendar-icon-on-white-background_1308-84634.jpg?w=2000" alt="Card image cap">
-	        <div class="card-block">
-	          <h2 class="card-title">Scheduler</h2>
-	          <p class="card-text">개인 스케줄러</p>
-	        </div>
+	      	<iframe src="http://localhost:8080/controller/schedule" width=100% height=650px></iframe>
 	      </div>
 	      <div class="card p-3">
 	        <blockquote class="card-block card-blockquote">
+	        	<h2 class="card-title">Scheduler</h2>
 	          	<p><form method="get" action="CheckboxServlet">
 					<input type="checkbox" name="item" value="운동1"> 운동 1 - 3세트<br><br>
 					<input type="checkbox" name="item" value="운동2"> 운동 2 - 1세트<br><br>
@@ -39,6 +37,8 @@
 				</form></p>
 	        </blockquote>
 	      </div>
+	    </div>
+	    <div class="div-fl">
 	      <div class="card">
 	        <div class="card-block">
 	          <h2 class="card-title">공지사항</h2>
@@ -59,7 +59,6 @@
 	      </div>
 	    </div>
 	</div>
-
 </div>
 
 <script src="./resources/js/jquery.js"></script>
