@@ -17,6 +17,11 @@
 <body>
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
 	
+<script src="./resources/js/jquery.js"></script>
+<script src="./resources/js/tether.min.js"></script>
+<script src="./resources/js/bootstrap.min.js"></script>
+<script src="./resources/js/perfect-scrollbar.min.js"></script>
+<script src="./resources/js/common.js"></script>
 
 </body>
 </html>

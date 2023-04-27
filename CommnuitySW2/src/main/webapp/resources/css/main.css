@@ -78,3 +78,31 @@ input[type="button"] {
 	margin:10px;
 	display:inline-block;
 }
+
+.form-control2{
+	display:block;
+	float:left;
+	width:75%;
+	padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+}
+
+.check{
+	float:left;
+	display:block;
+	width:23%;
+	margin-left:5px;
+}
+
+.div-fl{
+	float:left;
+	display:block;
+	width:50%;
+	padding:5px;
+}

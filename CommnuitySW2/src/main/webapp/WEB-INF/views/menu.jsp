@@ -31,7 +31,11 @@
 		<a href="/controller/join">회원가입</a>
 		</li>
 		<li>
-		<a href="/controller/mypage">마이페이지</a>
+			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">마이페이지</a>
+			<ul class="collapse list-unstyled" id="pageSubmenu">
+				<li><a href="/controller/mypage">내 정보 수정</a></li>
+				<li><a href="/controller/schedule">나의 스케줄러</a></li>
+			</ul>
 		</li>
 	</ul>
 	<ul class="list-unstyled components">
@@ -39,11 +43,11 @@
 		<a href="/controller/notice">공지사항</a>
 		</li>
 		<li>
-		<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">게시판</a>
-		<ul class="collapse list-unstyled" id="pageSubmenu">
-			<li><a href="/controller/free">자유게시판</a></li>
-			<li><a href="/controller/info">정보게시판</a></li>
-		</ul>
+			<a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false">게시판</a>
+			<ul class="collapse list-unstyled" id="pageSubmenu2">
+				<li><a href="/controller/free">자유게시판</a></li>
+				<li><a href="/controller/info">정보게시판</a></li>
+			</ul>
 		</li>
 	</ul>
 	<div class="sidebar-footer">

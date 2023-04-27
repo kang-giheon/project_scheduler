@@ -202,11 +202,14 @@ h1.site-title {
 }
 .card {
 	border:1px solid rgba(153, 151, 193, 0.3);
+	margin-bottom:5px;
 }
 
 .card-columns .card {
     margin-bottom: 1.25rem;
+    width:500px;
 }
+
 /* --------------------------------------------------- Media QUERIES----------------------------------------------------- */
 @media (max-width:768px) {
 	#sidebar-responsive {
@@ -259,3 +262,4 @@ h1.site-title {
 		transform: rotate(-45deg) translate(1px,-1px);
 	}
 }
+
