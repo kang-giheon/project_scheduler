@@ -69,9 +69,9 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
         <%for(int i=0; i<list.size(); i++){
         		ScheduleDTOImpl dto = (ScheduleDTOImpl)list.get(i);%>
         	{
-        		title : '<%=dto.getSubject()%>',
-        		start : '<%=dto.getStartDate()%>',
-        		end : '<%dto.getEndDate();%>'
+        		title : "<%=dto.getSubject()%>",
+        		start : "<%=dto.getStartDate()%>",
+        		end : "<%=dto.getEndDate()%>"
         	},
         <%
         	}
@@ -91,13 +91,8 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
           //alert('selected ' + info.startStr + ' to ' + info.endStr );
           var frmPop = document.frmPopup;
           var option = "width=600, height=600, left=100, top=50, location=no";
-          window.open("./schedulePopup","popup",option)
-          
-          frmPop.action = "./schedulePopup";
-          frmPop.target = "popup";
-          frmPop.arg1.value = info.startStr;
-          frmPop.arg2.value = info.endStr;
-          frmPop.submit();
+          var url = "./schedulePopup?arg1="+info.startStr+"&arg2="+info.endStr;
+          window.open(url,"popup",option)
         }
     });
 
@@ -110,11 +105,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 <body>
   
   <div id='calendar' style="position : relative;">
-  </div>
-  <form name="frmPopup">
-  <input type="hidden" name="arg1">
-  <input type="hidden" name="arg2">
-  </form>
+  </div> 
 </body>
 
 </html>
