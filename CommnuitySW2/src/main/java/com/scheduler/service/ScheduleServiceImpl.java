@@ -18,5 +18,15 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public List<ScheduleDTOImpl> showSchedule() throws Exception {
 		return dao.showSchedule();
 	}
+	
+	@Override
+	public List<ScheduleDTOImpl> showSchedulePickDate(ScheduleDTOImpl schedule) throws Exception {
+		return dao.showSchedulePickDate(schedule);
+	}
+
+	@Override
+	public void addSchedule(ScheduleDTOImpl schedule) {
+		dao.addSchedule(schedule);
+	}
 
 }
