@@ -1,72 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Scheduler Community</title>
-	<link href="./resources/css/main.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="./resources/css/perfect-scrollbar.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
+	<link rel="stylesheet" href="./resources/css/style.css">
+	<link rel="stylesheet" href="./resources/css/main.css">
 </head>
 <body>
-	<header> 
-	<!-- 페이지 타이틀을 클릭하면 메인화면으로 이동 -->
-    <div class="head-area">
-    	<span class="header"><a href='./'> 
-    		<font color="white";> &nbsp Scheduler Community </font></a>
-    	</span>
-	    <div style="display:inline-block; align:right; text-align:right; position:absolute; top:28px; right:15px;">
-	   		<span class="header2"><a href='./login'>
-	   			<font color="white">로그인</font></a></span>&nbsp;
-	    	<span class="header2"><a href='./join'>
-	    			<font color="white">회원가입</font></a></span>&nbsp;
-	    	<span class="header2"><a href='./mypage'>
-	    			<font color="white">마이페이지</font></a></span>&nbsp;
+
+<div class="wrapper">
+	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
+
+	<div id="content">
+	    <div class="div-fl">
+	      <div class="card">
+	      	<iframe src="http://localhost:8080/controller/schedule" width=100% height=650px></iframe>
+	      </div>
+	      <div class="card p-3">
+	        <blockquote class="card-block card-blockquote">
+	        	<h2 class="card-title">Scheduler</h2>
+	          	<p><form method="get" action="CheckboxServlet">
+					<input type="checkbox" name="item" value="운동1"> 운동 1 - 3세트<br><br>
+					<input type="checkbox" name="item" value="운동2"> 운동 2 - 1세트<br><br>
+					<input type="checkbox" name="item" value="운동3"> 운동 3 - 3세트<br><br>
+					<input type="checkbox" name="item" value="ㅇㅇ와운동"> ㅇㅇ와 운동하기<br>
+				</form></p>
+	        </blockquote>
+	      </div>
 	    </div>
-    </div>
-    </header>
-    <div>
-    	<div class="group-area";>
-    		<div>
-    			<div class="group1">
-    				<div>
-    					<h4><font size=5;>카페정보</font></h4>
-    					<div>
-    						<span style="text-align:center; align:center;">~~~카페 소개글~~~</span>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="write">
-    				<a href="./write"><font color="white" size=5;>카페 글쓰기</font></a>
-    			</div>
-    		</div>
-	    	<div>
-	    		<ul class="group1" style = "margin-top:0px; display:block; height:300px;">
-	    			<span class="write2">=게시판=</span>
-	    			<li style="padding-left:10px;"><font size=4;><a href='./commu/notice'>- 공지사항</a></font></li>
-	    			<li style="padding-left:10px;"><font size=4;><a href='./commu/info'>- 정보게시판</a></font></li>
-	    			<li style="padding-left:10px;"><font size=4;><a href='./commu/free'>- 자유게시판</a></font></li>
-	    		</ul>
-	    	</div>
-	    	<div class="group1" style="display:inline-block;";>
-	    		<span class="kcal">=오늘 소모한 칼로리=</span>
-	    	</div>
-		</div>
-    	<div class="main-area";>
-    		<div class="main-area2";>
-    			스케줄러
-    		</div>
-    		<div>
-    			<div class="main-area3";>
-    				공지사항
-    			</div>
-	    		<div class="main-area3";>
-	    			자유게시판
-	    		</div>
-    		</div>
-    	</div>
-    </div>
-    <footer class="footer">
-    	<span><font color="white">가장 아래 정보 칸</font></span>
-    </footer>
+	    <div class="div-fl">
+	      <div class="card">
+	        <div class="card-block">
+	          <h2 class="card-title">공지사항</h2>
+	          <p class="card-text">- 공지사항 1 <br> - 공지사항 2 <br> - 공지사항 3</p>
+	        </div>
+	      </div>
+	      <div class="card">
+	        <div class="card-block">
+	          <h2 class="card-title">자유게시판</h2>
+	          <p class="card-text">- 게시글 1 <br> - 게시글 2 <br> - 게시글 3 <br> - 게시글 4 <br> - 게시글 5 </p>
+	        </div>
+	      </div>
+	      <div class="card">
+	        <div class="card-block">
+	          <h2 class="card-title">정보게시판</h2>
+	          <p class="card-text">- 게시글 1 <br> - 게시글 2 <br> - 게시글 3 <br> - 게시글 4 <br> - 게시글 5 </p>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+</div>
+
+<script src="./resources/js/jquery.js"></script>
+<script src="./resources/js/tether.min.js"></script>
+<script src="./resources/js/bootstrap.min.js"></script>
+<script src="./resources/js/perfect-scrollbar.min.js"></script>
+<script src="./resources/js/common.js"></script>
 
 </body>
 </html>
