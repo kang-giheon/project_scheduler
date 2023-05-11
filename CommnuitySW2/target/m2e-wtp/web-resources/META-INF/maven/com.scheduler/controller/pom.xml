@@ -170,6 +170,13 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
+		<!-- firebase -->
+		<dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.12.1</version>
+		</dependency>
 	
 		<!-- Test -->
 		<dependency>
