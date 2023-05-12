@@ -22,14 +22,14 @@
       <div class="login-box">
         <div id="loginBoxTitle">로그인</div>
         <div class="form-group">
-            <label>아이디</label>
-            <input type="text" name="userId" id="userId" class="form-control" value="" ime-mode:disabled">
+            <label>아이디(이메일)</label>
+            <input type="text" id="email" class="form-control" ime-mode:disabled">
         </div>
         <div class="form-group">
             <label>비밀번호</label>
-            <input type="password" name="password" id="password" class="form-control" value="" autocomplete="off">
+            <input type="password" id="password" class="form-control" autocomplete="off">
         </div>
-        <input type="button" id="login-btn-box" value="로그인" >
+        <input id="Login" type="button" class="login-btn-box" value="로그인" >
         <div class="ot-btn">
         	<div class="ot-btn-in">
 	           <span><a href="./join">회원가입</a></span>
@@ -45,13 +45,74 @@
     </div>
 
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-    	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="./resources/js/jquery.js"></script>
-	<script src="./resources/js/tether.min.js"></script>
-	<script src="./resources/js/bootstrap.min.js"></script>
-	<script src="./resources/js/perfect-scrollbar.min.js"></script>
-	<script src="./resources/js/common.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+	
+	<script src="./resources/js/jquery.js"></script>
+	
+	<script type="module">
+	  // Import the functions you need from the SDKs you need
+	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+	  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
+	  import { getFirestore } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+	  import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+	  import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js';
 
+	  // TODO: Add SDKs for Firebase products that you want to use
+	  // https://firebase.google.com/docs/web/setup#available-libraries
+
+	  // Your web app's Firebase configuration
+	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	  const firebaseConfig = {
+	    apiKey: "AIzaSyAMdQA_jrY0hk_ArysLnChF-ZnV8gNck3Q",
+	    authDomain: "project-scheduler-49a32.firebaseapp.com",
+	    databaseURL: "https://project-scheduler-49a32-default-rtdb.asia-southeast1.firebasedatabase.app",
+	    projectId: "project-scheduler-49a32",
+	    storageBucket: "project-scheduler-49a32.appspot.com",
+	    messagingSenderId: "101057802314",
+	    appId: "1:101057802314:web:6d2f6e45360e95029f36b3",
+	    measurementId: "G-J5QE542RCT"
+	  };
+
+		// Initialize Firebase
+		var app = firebase.initializeApp(firebaseConfig);
+
+	    var firebaseEmailAuth = app.auth();
+	    var firebaseDatabase = app.database();
+
+		const database = getDatabase(app);
+
+	    //제이쿼리를 사용한다.
+ 	   $(document).ready(function(){
+			//가입버튼 눌렀을 때
+        	$(document).on('click','#Login',function(){
+        
+		        //제이쿼리 선택자와 val() 함수를 이용해서 이메일,비밀번호 값을 가져온다. 
+		        var email = $('#email').val();
+		        var password = $('#password').val();
+ 	   
+			    //파이어베이스 이메일 로그인 함수
+			    firebaseEmailAuth.signInWithEmailAndPassword(email, password).then(function(firebaseUser) { 
+			       //성공하면 firebaseUser에 유저 정보 값이 담겨 넘어온다.
+			       loginSuccess(firebaseUser); 
+			   })
+			  .catch(function(error) {
+		       // 실패했을 때 에러 처리
+		       alert("로그인 실패");
+			  });    
+	      });
+	    });
+    
+	    //로그인 성공했을 때
+	    function loginSuccess(firebaseUser){
+	        alert("로그인 성공");
+ 
+	    	//메인 페이지로 이동
+	   		window.location.href = "/controller"
+	    }
+</script>
 </body>
 </html>

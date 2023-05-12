@@ -28,8 +28,7 @@
         </div>
         <div class="form-group">
             <label>아이디(이메일)</label>
-            <input id="email" type="email" name="email" placeholder="이메일 입력" class="form-control2" autocomplete="off" required>
-            <input type="button" class="check" value="중복확인">
+            <input id="email" type="email" name="email" placeholder="이메일 입력" class="form-control" autocomplete="off" required>
         </div>
         <div class="form-group">
             <label>비밀번호</label>
@@ -61,21 +60,19 @@
       </div>
     </div>
 
+	<script src="./resources/js/firebaseDB.js"</script>
 	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
-	<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 	
 	<script src="./resources/js/jquery.js"></script>
 	<script type="module">
 	  // Import the functions you need from the SDKs you need
 	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 	  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
-	  import { getFirestore } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
-	  import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+	  import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 	  import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 	  // TODO: Add SDKs for Firebase products that you want to use
 	  // https://firebase.google.com/docs/web/setup#available-libraries
@@ -84,19 +81,6 @@
 		var firebaseDatabase;
 		var userInfo;
 
-	  // Your web app's Firebase configuration
-	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-	  const firebaseConfig = {
-	    apiKey: "AIzaSyAMdQA_jrY0hk_ArysLnChF-ZnV8gNck3Q",
-	    authDomain: "project-scheduler-49a32.firebaseapp.com",
-	    databaseURL: "https://project-scheduler-49a32-default-rtdb.asia-southeast1.firebasedatabase.app",
-	    projectId: "project-scheduler-49a32",
-	    storageBucket: "project-scheduler-49a32.appspot.com",
-	    messagingSenderId: "101057802314",
-	    appId: "1:101057802314:web:6d2f6e45360e95029f36b3",
-	    measurementId: "G-J5QE542RCT"
-	  };
-
 		// Initialize Firebase
 		var app = firebase.initializeApp(firebaseConfig);
 
@@ -104,6 +88,7 @@
 	    firebaseDatabase = app.database();
 
 		const database = getDatabase(app);
+		const db = getFirestore(app);
 
 		//제이쿼리 
 		$(document).ready(function(){
@@ -118,66 +103,49 @@
 		    name = $('#name').val().toString();
 		 	var tel = $('#tel').val().toString();
 
-		
+	if(email != "" && password != "" && repassword != "" && name != "" && tel != ""){
 		if(password == repassword){
 			//이메일로 가입 버튼 눌렀을 때 작동되는 함수 - firebase 인증 모듈
 			firebaseEmailAuth.createUserWithEmailAndPassword(email, password).then(function(user) {
-			    userInfo = user; //가입 후 callBack 함수로 생성된 유저의 정보가 user에 담겨서 넘어온다. 전역변수에 할당.
-
-			    //뭐가 찍히는지 직접 체크해보세요.
-			    console.log("userInfo/"+userInfo); //오브젝트 타입
-			    console.log("userInfo.uid/"+userInfo.uid); //undefined -> 고쳐야함. 개인 uid 나오도록 바꿔야함.
-		    
+			    userInfo = user; //가입 후 callBack 함수로 생성된 유저의 정보가 user에 담겨서 넘어온다. 전역변수에 할당.		    
 
 			    //성공했을 때 작동되는 함수
-			    logUser(); 
 				joinDB(name, email, password, tel);
 
-		 
 			}, function(error) {
 		    	//에러가 발생했을 때 
 		    	var errorCode = error.code;
 		    	var errorMessage = error.message;
-		    	alert(errorMessage);
-		   
+				if(errorMessage == "The email address is already in use by another account."){
+					alert("이미 존재하는 이메일입니다");
+				}
+				else if(errorMessage == "Password should be at least 6 characters"){
+					alert("비밀번호는 6자리 이상이여야 합니다.");
+				}
 			});
 		}
 		else {
 			alert("비밀번호가 일치하지 않습니다");
 		}
 		
-		//가입 성공했을 때 호출 되는 함수 - 위의 firebase의 인증 모듈과 다른 database 모듈임을 확인하자.
-		function logUser(){
-		 
-   			  var ref = firebaseDatabase.ref("users/"+userInfo.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
-    
-		    //저장 형식
-		    var obj = {
-		        name: name,
-				email: email,
-				password: password,
-				tel: tel
-		    };
- 			
-			console.log(obj);
-
-			alert("가입성공");
-
-		 
-		    //메인 페이지로 이동시키고 세션 저장시키기
-		   // window.location.href = "/controller"
-		}
 
 		function joinDB(name, email, password, tel) {
 			firebase.auth().onAuthStateChanged( async (user) => {
 			  console.log(user.uid);
+			
+			  var data = { username:name, email:email, password:password, tel:tel };
 
-				  set(ref(database, 'users/' + user.uid), {
-					username:name, email:email, password:password, tel:tel
-				  });  
-			});	
+			  const res = await db.collection('users').doc(user.uid).set(data);
+
+			  //메인 페이지로 이동시키고 세션 저장시키기
+			  window.location.href = "/controller"
+			});
+			alert("가입 성공");	
 		 };
-		});
+		} else { 
+			alert("모든 항목을 입력해주세요!"); 
+		}
+	  });
 	});
 	</script>
 </body>
