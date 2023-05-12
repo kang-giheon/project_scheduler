@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    
+	<script src="./resources/js/firebaseDB.js"</script>    
    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -63,19 +63,6 @@
 
 	  // TODO: Add SDKs for Firebase products that you want to use
 	  // https://firebase.google.com/docs/web/setup#available-libraries
-
-	  // Your web app's Firebase configuration
-	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-	  const firebaseConfig = {
-	    apiKey: "AIzaSyAMdQA_jrY0hk_ArysLnChF-ZnV8gNck3Q",
-	    authDomain: "project-scheduler-49a32.firebaseapp.com",
-	    databaseURL: "https://project-scheduler-49a32-default-rtdb.asia-southeast1.firebasedatabase.app",
-	    projectId: "project-scheduler-49a32",
-	    storageBucket: "project-scheduler-49a32.appspot.com",
-	    messagingSenderId: "101057802314",
-	    appId: "1:101057802314:web:6d2f6e45360e95029f36b3",
-	    measurementId: "G-J5QE542RCT"
-	  };
 
 		// Initialize Firebase
 		var app = firebase.initializeApp(firebaseConfig);
