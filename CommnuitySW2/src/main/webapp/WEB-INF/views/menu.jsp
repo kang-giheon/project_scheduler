@@ -25,7 +25,7 @@
 	</div>
 	<ul class="list-unstyled components">
 		<li class="active">
-		<a href="/controller/login">로그인</a>
+		<a href="/controller/login" id="logged-in">로그인</a>
 		</li>
 		<li>
 		<a href="/controller/join">회원가입</a>
@@ -33,8 +33,8 @@
 		<li>
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">마이페이지</a>
 			<ul class="collapse list-unstyled" id="pageSubmenu">
-				<li><a href="/controller/mypage">내 정보 수정</a></li>
-				<li><a href="/controller/schedule">나의 스케줄러</a></li>
+				<li><a id="mypage" href="/controller/mypage">내 정보 수정</a></li>
+				<li><a id="scheduler" href="/controller/schedule">나의 스케줄러</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -58,17 +58,50 @@
 			<a target="_blank" href="#"><i class="fa fa-twitter"></i></a>
 			<a target="_blank" href="#"><i class="fa fa-google-plus"></i></a>
 		</p>
-		<p>
-			Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
-
-		</p>
 	</div>
 </nav>
+	<script src="./resources/js/jquery.js"></script>
+	<script src="./resources/js/firebaseDB.js"</script>  
+   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>  
+	<script>
+		app = firebase.initializeApp(firebaseConfig);
+ 	    firebaseEmailAuth = app.auth();
+	    firebaseDatabase = app.database();
+ 	    
+		userSessionCheck();
 
-<script src="./resources/js/bootstrap/jquery.js"></script>
-<script src="./resources/js/bootstrap/tether.min.js"></script>
-<script src="./resources/js/bootstrap/bootstrap.min.js"></script>
-<script src="./resources/js/bootstrap/perfect-scrollbar.min.js"></script>
-<script src="./resources/js/bootstrap/common.js"></script>
+       function userSessionCheck(){
+    	   firebaseEmailAuth.onAuthStateChanged(function(user){
+    		   if(user){
+    				   document.getElementById('logged-in').textContent="로그아웃";
+    				   document.getElementById('logged-in').href="/controller";
+    		   }
+    		   else {
+    				document.getElementById('mypage').href="/controller/login";
+    			   	document.getElementById('scheduler').href="/controller/login";
+    		   }
+    		})
+    	 }
+       
+       $(document).ready(function(){
+			//가입버튼 눌렀을 때
+       	$(document).on('click','#logged-in',function(){
+       		firebaseEmailAuth.signOut().then(function(){
+       			window.location.href="/controller"
+       		})
+	      });
+	    });
+     
+	</script>
+	
+	<script src="./resources/js/jquery.js"></script>
+	<script src="./resources/js/tether.min.js"></script>
+	<script src="./resources/js/bootstrap.min.js"></script>
+	<script src="./resources/js/perfect-scrollbar.min.js"></script>
+	<script src="./resources/js/common.js"></script>
 
 </html>

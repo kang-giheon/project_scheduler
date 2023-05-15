@@ -1,6 +1,6 @@
 // Your web app's Firebase configuration
 	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-	  const firebaseConfig = {
+	  var firebaseConfig = {
 	    apiKey: "AIzaSyAMdQA_jrY0hk_ArysLnChF-ZnV8gNck3Q",
 	    authDomain: "project-scheduler-49a32.firebaseapp.com",
 	    databaseURL: "https://project-scheduler-49a32-default-rtdb.asia-southeast1.firebasedatabase.app",

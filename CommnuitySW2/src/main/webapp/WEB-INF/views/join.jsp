@@ -60,14 +60,14 @@
       </div>
     </div>
 
-	<script src="./resources/js/firebaseDB.js"</script>
-	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="./resources/js/firebaseDB.js"</script>     
+   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
-	
 	<script src="./resources/js/jquery.js"></script>
+
 	<script type="module">
 	  // Import the functions you need from the SDKs you need
 	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
@@ -130,16 +130,18 @@
 		
 
 		function joinDB(name, email, password, tel) {
-			firebase.auth().onAuthStateChanged( async (user) => {
+			firebaseEmailAuth.onAuthStateChanged( async (user) => {
 			  console.log(user.uid);
 			
 			  var data = { username:name, email:email, password:password, tel:tel };
 
 			  const res = await db.collection('users').doc(user.uid).set(data);
 
-			  //메인 페이지로 이동시키고 세션 저장시키기
-			  window.location.href = "/controller"
+			  firebaseEmailAuth.signOut().then(function(){
+       			window.location.href="/controller"
+       		  })
 			});
+
 			alert("가입 성공");	
 		 };
 		} else { 
@@ -148,5 +150,10 @@
 	  });
 	});
 	</script>
+	<script src="./resources/js/jquery.js"></script>
+<script src="./resources/js/tether.min.js"></script>
+<script src="./resources/js/bootstrap.min.js"></script>
+<script src="./resources/js/perfect-scrollbar.min.js"></script>
+<script src="./resources/js/common.js"></script>
 </body>
 </html>
