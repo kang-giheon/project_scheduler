@@ -50,9 +50,8 @@
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
-	
-	<script src="./resources/js/jquery.js"></script>
-	
+		<script src="./resources/js/jquery.js"></script>
+
 	<script type="module">
 	  // Import the functions you need from the SDKs you need
 	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
@@ -100,6 +99,14 @@
 	    	//메인 페이지로 이동
 	   		window.location.href = "/controller"
 	    }
+		
+	</script>
+
 </script>
+<script src="./resources/js/jquery.js"></script>
+<script src="./resources/js/tether.min.js"></script>
+<script src="./resources/js/bootstrap.min.js"></script>
+<script src="./resources/js/perfect-scrollbar.min.js"></script>
+<script src="./resources/js/common.js"></script>
 </body>
 </html>
