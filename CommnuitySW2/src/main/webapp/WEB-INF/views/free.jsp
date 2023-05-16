@@ -16,11 +16,41 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
+	<h2>~~~~~~~~~~~~~~~~~~~~~~~~~~free입니다~~~~~~~~~~~~~~~~~~~~~</h2>
+	<script>
+	var d = new Date();
+	var year = d.getFullYear().toString();
+	var month = (d.getMonth() + 1).toString();
+	var day = d.getDate().toString();
+	var hours = d.getHours().toString();
+	var min = d.getMinutes().toString();
+	var sec = d.getSeconds().toString();
+	var currentTime = year + month + day + hours + min + sec;
+	
+	function userSessionCheck(){
+		console.log(currentTime);
+		
+ 	   firebaseEmailAuth.onAuthStateChanged(function(user){
+ 		   if(user){
+ 				   //로그인 되어있으면
+ 		   }
+ 		   else {
+ 			   //로그인 안됐으면
+ 				document.getElementById('mypage').href="/controller/login";
+ 			   	document.getElementById('scheduler').href="/controller/login";
+ 		   }
+ 		})
+ 	 }
+	userSessionCheck();
+	</script>
+	
+	
 	
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>
 	<script src="./resources/js/bootstrap.min.js"></script>
 	<script src="./resources/js/perfect-scrollbar.min.js"></script>
 	<script src="./resources/js/common.js"></script>
+	
 </body>
 </html>
