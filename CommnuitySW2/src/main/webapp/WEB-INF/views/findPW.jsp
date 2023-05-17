@@ -16,7 +16,37 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
-	
+
+   <div id="container">
+      <div class="login-box">
+        <div id="loginBoxTitle">비밀번호 찾기</div>
+        <div class="form-group">
+            <label>이름</label>
+             <input id="name" type="text" name="username" placeholder="이름 입력" class="form-control" style="ime-mode:disabled" required autofocus>
+        </div>
+        <div class="form-group">
+            <label>아이디(이메일)</label>
+            <input id="email" type="email" name="email" placeholder="이메일 입력" class="form-control" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <label>전화번호</label>
+            <input id="tel" type="text" name="phone" placeholder="전화번호 입력" class="form-control"  autocomplete="off" required> 
+        </div>
+        <input id="Login" type="button" class="login-btn-box" value="비밀번호 찾기" >
+        <div class="ot-btn">
+        	<div class="ot-btn-in">
+	           <span><a href="./login">로그인</a></span>
+	       	</div>
+	       	<div class="ot-btn-in">
+	           <span><a href="./join">회원가입</a></span>
+	       	</div>
+	       	<div class="ot-btn-in">
+	           <span><a href="./findID">아이디 찾기</a></span>
+	       	</div>
+        </div>
+      </div>
+    </div>
+    
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>
 	<script src="./resources/js/bootstrap.min.js"></script>
