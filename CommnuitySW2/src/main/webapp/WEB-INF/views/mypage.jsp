@@ -44,17 +44,6 @@
         <input type="button" id="update" value="수정하기" style="align-items: center; margin-top:10px; background-color:black;
   						color:white; border-radius:5px; width:100%; padding:10px;" >
   						
-        <div class="ot-btn">
-        	<div class="ot-btn-in">
-	           <span><a href="./login">로그인</a></span>
-	       	</div>
-	       	<div class="ot-btn-in">
-	           <span><a href="./findID">아이디 찾기</a></span>
-	       	</div>
-	       	<div class="ot-btn-in">
-	           <span><a href="./findPW">비밀번호 찾기</a></span>
-	       	</div>
-        </div>
       </div>
     </div>
     

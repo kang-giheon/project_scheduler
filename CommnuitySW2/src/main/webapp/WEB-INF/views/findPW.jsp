@@ -32,7 +32,7 @@
             <label>전화번호</label>
             <input id="tel" type="text" name="phone" placeholder="전화번호 입력" class="form-control"  autocomplete="off" required> 
         </div>
-        <input id="Login" type="button" class="login-btn-box" value="비밀번호 찾기" >
+        <input id="findPW" type="button" class="login-btn-box" value="비밀번호 찾기" >
         <div class="ot-btn">
         	<div class="ot-btn-in">
 	           <span><a href="./login">로그인</a></span>
@@ -47,6 +47,68 @@
       </div>
     </div>
     
+    <script src="./resources/js/firebaseDB.js"</script>     
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+	<script src="./resources/js/jquery.js"></script>
+	
+	<script>
+		var app = firebase.initializeApp(firebaseConfig);
+		const db = firebase.firestore();
+	    var firebaseEmailAuth = app.auth();		
+		var getname, gettel, getemail;
+
+		var dbUsername=[];
+		var dbUsertel=[];
+		var dbUseremail=[];
+		
+		db.collection('users').get().then((getUsers)=>{
+			getUsers.forEach((allDoc)=>{
+				username = allDoc.data().username;
+				dbUsername.push(username);
+				tel = allDoc.data().tel;
+				dbUsertel.push(tel);
+				email = allDoc.data().email;
+				dbUseremail.push(email);
+			})
+			console.log(dbUsername);
+			console.log(dbUsertel);
+			console.log(dbUseremail);
+		})
+
+    	$(document).ready(function () {
+			$(document).on('click', '#findPW', function () {
+				getname = $('#name').val().toString();
+			 	gettel = $('#tel').val().toString();
+			 	getemail = $('#email').val().toString();
+			 	
+			 	if(getname != "" && gettel != "" && getemail != ""){
+			 		if(dbUsername.includes(getname) && dbUsertel.includes(gettel) && dbUseremail.includes(getemail)){
+						db.collection('users').get().then((test)=>{
+							test.forEach((doc)=>{
+								var email = doc.data().email;
+								if(email == getemail){
+									var userpassword = doc.data().password;
+									alert(getname + "님의 비밀번호는 " + userpassword + "입니다");
+									window.location.href="/controller/login";
+								}	
+							})
+						})
+					}
+					else {
+						alert("일치하는 사용자가 없습니다");
+					}
+			 	}
+			 	else { 
+			 		alert("모든 항목을 입력하세요");
+			 	}
+ 		    });
+        });
+	</script>
+	
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>
 	<script src="./resources/js/bootstrap.min.js"></script>

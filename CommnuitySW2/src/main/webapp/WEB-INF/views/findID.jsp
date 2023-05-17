@@ -56,27 +56,41 @@
 		const db = firebase.firestore();
 		var username, tel, email, dbUser;
 		var getname, gettel, getUser;
+		var dbUserlist=[];
+		var dbUsername=[];
+		var dbUsertel=[];
 		
 		db.collection('users').get().then((getUsers)=>{
 			getUsers.forEach((allDoc)=>{
 				username = allDoc.data().username;
+				dbUsername.push(username);
 				tel = allDoc.data().tel;
+				dbUsertel.push(tel);
 				email = allDoc.data().email;
-				dbUser = username + " " + tel;
-				console.log(dbUser);
 			})
+			console.log(dbUsername);
+			console.log(dbUsertel);
 		})
 		
 		$(document).ready(function(){
 		  $(document).on('click','#findID',function(){
 		    getname = $('#name').val().toString();
 		 	gettel = $('#tel').val().toString();
-		 	getUser = getname + " " + gettel;
-		 	console.log(getuser);
-		 	
+		 	getUser = [getname, gettel];
+		 	console.log(getUser);
+			
 			if(getname != "" && gettel != ""){
-					if(dbUser == getUser){
-						console.log(getname + "님의 아이디는 " + email + "입니다");
+					if(dbUsername.includes(getname) == true && dbUsertel.includes(gettel)){
+						db.collection('users').get().then((test)=>{
+							test.forEach((doc)=>{
+								var tel = doc.data().tel;
+								if(tel == gettel){
+									var useremail = doc.data().email;
+									alert(getname + "님의 아이디는 " + useremail + "입니다");
+									window.location.href="/controller/login";
+								}	
+							})
+						})
 					}
 					else {
 						alert("일치하는 사용자가 없습니다");
