@@ -86,7 +86,7 @@
 	var hours = d.getHours().toString();
 	var min = d.getMinutes().toString();
 	var sec = d.getSeconds().toString();
-	var currentTime = year + month + day + hours + min + sec;
+	var currentTime = year+"년" + month+ "월" + day +"일";
 	var nowusername;
 	//현재 로그인한 user의 username 뽑아냄
 	function test(nowUid){
