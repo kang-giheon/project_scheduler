@@ -12,36 +12,83 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
      	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./resources/css/main.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel = "stylesheet">
+<link rel="stylesheet" href = "https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.js"></script>
     
 </head>
 <body>
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
-	<h2>~~~~~~~~~~~~~~~~~~~~~~~~~~free입니다~~~~~~~~~~~~~~~~~~~~~</h2>
-	<script>
-	var d = new Date();
-	var year = d.getFullYear().toString();
-	var month = (d.getMonth() + 1).toString();
-	var day = d.getDate().toString();
-	var hours = d.getHours().toString();
-	var min = d.getMinutes().toString();
-	var sec = d.getSeconds().toString();
-	var currentTime = year + month + day + hours + min + sec;
+	<div class="container">
+		<h2 class="text-center">자유게시판</h2>
+		<table class="table table-boardered table table-hover" id='table1'>
+			<thead>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>조회수</th>
+				<th>등록일</th>
+			</thead>
+			<tbody id="table">
+				<tr>
+					<td>
+						<!--  <a href="view.do?bno=${board.bno}">${board.title}</a> -->
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+			<tbody>
+				<tr>
+					<td colspan="5" class="text-center">
+						<button onclick="location.href='write'">신규등록</button>
+					</td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
 	
-	function userSessionCheck(){
-		console.log(currentTime);
-		
- 	   firebaseEmailAuth.onAuthStateChanged(function(user){
- 		   if(user){
- 				   //로그인 되어있으면
- 		   }
- 		   else {
- 			   //로그인 안됐으면
- 				document.getElementById('mypage').href="/controller/login";
- 			   	document.getElementById('scheduler').href="/controller/login";
- 		   }
- 		})
- 	 }
-	userSessionCheck();
+	<script src="./resources/js/firebaseDB.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+	<script src="./resources/js/jquery.js"></script>
+	
+	<script type="module">
+	//파이어베이스 연동
+	import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+	
+	var app = firebase.initializeApp(firebaseConfig);
+    var firebaseEmailAuth = app.auth();
+    var firebaseDatabase = app.database();
+    const db = getFirestore(app);
+	
+	//
+
+	var table = document.getElementById("table");
+	var tableRow = table.rows.length; 
+	var html = '';
+	
+	db.collection('board').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			html += '<tr>';
+			html += '<td><a href="view?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</td>';
+			html += '<td>' + doc.data().username+'</td>';
+			html += '<td>' + doc.data().viewcnt+'</td>';
+			html += '<td>' + doc.data().date+'</td>';
+			html += '</tr>';
+			
+
+			
+		})
+	$("#table").append(html);
+	})
+	
+
 	</script>
 	
 	
