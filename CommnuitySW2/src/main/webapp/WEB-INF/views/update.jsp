@@ -51,5 +51,11 @@
 			<button onclick="location.href = 'list.do'">목록으로</button>
 		</div>
 	</div>
+		<script>
+	var queryString = window.location.search.substring(1);
+	var params = new URLSearchParams(queryString);
+	var username = params.get('username');
+	console.log(username);
+	</script>
 </body>
 </html>

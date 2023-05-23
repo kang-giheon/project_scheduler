@@ -40,7 +40,7 @@
 			
 			<tr>
 				<td colspan="2" class="text-center">
-					<button onclick="location.href='update'">수정하기</button>
+					<button onclick="location.href='update?username=' + encodeURIComponent(username)">수정하기</button>
 					<button onclick="location.href='free'">목록보기</button>
 					<button onclick="chkDelete(${board.bno })">삭제하기</button>
 					<button onclick="location.href='write'">신규등록</button>
