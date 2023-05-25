@@ -22,7 +22,7 @@
                 <div id="loginBoxTitle">내 정보 수정</div>
         <div class="form-group">
             <label>이름</label>
-             <input id="name" type="text" name="username" placeholder="이름 입력" class="form-control" style="ime-mode:disabled" required autofocus>
+             <label id="name" class="form-control" required autofocus>
         </div>
         <div class="form-group">
             <label>아이디(이메일)</label>
@@ -46,6 +46,43 @@
   						
       </div>
     </div>
+    
+    <script src="./resources/js/firebaseDB.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+	<script src="./resources/js/jquery.js"></script>
+	
+    <script>
+	    var app = firebase.initializeApp(firebaseConfig);
+	    var firebaseEmailAuth = app.auth();
+	    const db = firebase.firestore();
+
+	    function test(nowUid){
+			db.collection('users').get().then((test)=>{
+				test.forEach((doc)=>{
+					var allEmail = doc.data().email;
+					if(allEmail == nowUid){
+						var nowUser = doc.data().username;
+						name.innerHTML = nowUser;
+						nowusername = nowUser;
+						console.log(nowusername);
+					}	
+				})
+			})
+			
+		}
+	    
+	    firebaseEmailAuth.onAuthStateChanged(function(user) {
+	  		if (user) {
+				var nowUid = user.email;
+				test(nowUid);
+				
+	  		}
+		});
+    </script>
     
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>
