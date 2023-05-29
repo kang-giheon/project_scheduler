@@ -24,7 +24,7 @@
 	<div id="content">
 	    <div class="div-fl">
 	      <div class="card">
-	      	<iframe src="http://localhost:8080/controller/schedule" width=100% height=650px></iframe>
+	      	<iframe src="http://localhost:8080/controller/lookup" width=100% height=650px></iframe>
 	      </div>
 	      <div class="card p-3">
 	        <blockquote class="card-block card-blockquote">
