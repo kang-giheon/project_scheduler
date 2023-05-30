@@ -68,6 +68,7 @@
 	</div>
 </nav>
 	<script>
+		var app = firebase.initializeApp(firebaseConfig);
  	    firebaseEmailAuth = app.auth();
 	    firebaseDatabase = app.database();
  	    
@@ -90,6 +91,7 @@
 			//가입버튼 눌렀을 때
        	$(document).on('click','#logged-in',function(){
        		firebaseEmailAuth.signOut().then(function(){
+       			window.location.href="/controller/login/logout"
        			window.location.href="/controller"
        		})
 	      });

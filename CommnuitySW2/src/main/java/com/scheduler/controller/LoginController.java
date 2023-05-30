@@ -42,7 +42,7 @@ public class LoginController {
     } 
     
     @GetMapping("/login/logout")
-    public String logout(Model model) {  
-        return "login";  
+    public void logout(HttpSession session,Model model) {
+    	session.invalidate();  
     } 
 }
