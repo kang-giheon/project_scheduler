@@ -109,7 +109,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
       		],
       		select: function(info) {
           	//alert('selected ' + info.startStr + ' to ' + info.endStr );
-      			fetchDocumentsBetweenDates("test4@gmail.com",info.startStr,info.endStr);
+      			fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
         	}
     	});
     calendar.render();

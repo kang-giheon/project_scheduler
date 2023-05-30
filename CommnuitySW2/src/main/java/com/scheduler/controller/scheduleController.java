@@ -28,17 +28,20 @@ public class scheduleController {
 	
 	@GetMapping("/lookup")
 	public String lookup(HttpSession session, Model model) {
-		
+		String email = (String)session.getAttribute("email");
+		if(email==null) {
+			return "loginneed";
+		}
+		model.addAttribute("email",email);
 		return "lookup";
 	}
 	
 	@PostMapping("/schedule")
-	public String returningSchedule(HttpServletRequest request,Model model) throws Exception {
+	public String returningSchedule(HttpSession session,HttpServletRequest request,Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
 			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
 			    info = JSONArray.fromObject(request.getParameter("arg1"));
-		      
 		      for (Map<String, Object> memberInfo : info) {
 		    	  ScheduleDTOImpl dto = new ScheduleDTOImpl();
 		    	  dto.setSubject(memberInfo.get("subject").toString());
@@ -50,6 +53,7 @@ public class scheduleController {
 		  } catch (Exception e) {
 		 }
 		model.addAttribute("showSchedule",list); 
+		model.addAttribute("email",(String)session.getAttribute("email"));
 		  
 		return "schedule";
 	}

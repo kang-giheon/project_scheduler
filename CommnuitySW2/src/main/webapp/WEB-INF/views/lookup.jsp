@@ -54,7 +54,9 @@
   		}
 	}
 		// 문서 조회 함수 호출 (userUID는 실제 사용자 UID로 대체해야 함)
-		fetchAllDocuments('test4@gmail.com');
+		$(document).ready(function(){
+			fetchAllDocuments("<%=request.getAttribute("email")%>");
+		});
 	</script>
 <body>
 	<form name="frmPopup" method="post">
