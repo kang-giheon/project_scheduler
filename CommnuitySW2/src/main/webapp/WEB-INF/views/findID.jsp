@@ -80,7 +80,7 @@
 		 	console.log(getUser);
 			
 			if(getname != "" && gettel != ""){
-					if(dbUsername.includes(getname) == true && dbUsertel.includes(gettel)){
+					if(dbUsername.includes(getname) && dbUsertel.includes(gettel)){
 						db.collection('users').get().then((test)=>{
 							test.forEach((doc)=>{
 								var tel = doc.data().tel;
