@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,7 @@ public class PopupController {
 	private ScheduleService service;
 	
 	@PostMapping
-	public String showPopup(HttpServletRequest request, Model model) throws Exception {
+	public String showPopup(HttpSession session,HttpServletRequest request, Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
 			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
@@ -48,6 +49,7 @@ public class PopupController {
 		obj.setEndDate(request.getParameter("arg3"));
 		model.addAttribute("obj",obj);
 		model.addAttribute("schedule",list);
+		model.addAttribute("email",(String)session.getAttribute("email"));
 		
 		return "schedulePopup";
 	}
@@ -61,11 +63,16 @@ public class PopupController {
 	}
 	
 	@PostMapping("/update")
-	public void updateSchedule(@ModelAttribute("ScheduleDTO")ScheduleDTOImpl sc) {
+	public String updateSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
 		
+		model.addAttribute("obj",sc);
+		model.addAttribute("email",(String)session.getAttribute("email"));
+		return "updateSchedule";
 	}
 	@PostMapping("/delete")
-	public void deleteSchedule(@ModelAttribute("ScheduleDTO")ScheduleDTOImpl sc) {
-		
+	public String deleteSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
+		model.addAttribute("obj",sc);
+		model.addAttribute("email",(String)session.getAttribute("email"));
+		return "deleteSchedule";
 	}
 }

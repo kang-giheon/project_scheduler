@@ -52,32 +52,38 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	<script src='/docs/dist/demo-to-codepen.js'></script>
 	<script src="./resources/js/getSchedule.js"></script>
 <script>
-
-	var firebaseDatabase;
-
 	// Initialize Firebase
 	var app = firebase.initializeApp(firebaseConfig);
 
 	const db = app.firestore();
-	let documents;
 	
 	async function fetchDocumentsBetweenDates(userUID,start,end) {
 		  try {
-			const querySnapshot = await db.collection('schedules').doc(userUID).collection('schedule')
-			.where("startDate", ">=", start)
-		    .where("startDate", "<", end)
-		    .get();
+				const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
+				const querySnapshot = await collectionRef.get();
+				let documents = new Array();
 		   
-		    //모든 문서 출력
-		    documents = querySnapshot.docs.map((doc) => doc.data());
-		    getScheduleInfo(documents,start,end);
-
-		    console.log(JSON.stringify(documents));
-		    console.log("문서 조회 완료");
+		    	var i = 0;
+				querySnapshot.forEach((documentSnapshot) => {
+      				const documentData = documentSnapshot.data();
+      				const endDate = documentData["endDate"];
+      				const startDate = documentData["startDate"];
+      				if(startDate<=start && end<=endDate){
+	      				documents[i++] = documentData;
+      				}
+      				else if(startDate>=start && startDate<end){
+      					documents[i++] = documentData;
+      				}
+      				else if(endDate>start && endDate<=end){
+      					documents[i++] = documentData;
+      				}
+		    	});
+				getScheduleInfo(documents,start,end);
+		    console.log("특정 날짜 문서");
 		  } catch (error) {
 		    console.error("문서 조회 중 오류 발생:", error);
 		  }
-		}	
+	}	
 	document.addEventListener('DOMContentLoaded', function() {
     	var calendarEl = document.getElementById('calendar');
 
@@ -108,7 +114,6 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
         			}
       		],
       		select: function(info) {
-          	//alert('selected ' + info.startStr + ' to ' + info.endStr );
       			fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
         	}
     	});
