@@ -80,6 +80,7 @@ function click_ok(userID){
 function check(i){
 	var upfrm = document.forms[i];
 	upfrm.action="./schedulePopup/update";
+	upfrm.submit();
 }
 
 function deleteSchedule(i){
