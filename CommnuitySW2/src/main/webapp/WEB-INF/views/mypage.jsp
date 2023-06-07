@@ -66,7 +66,6 @@
 					var allEmail = doc.data().email;
 					if(allEmail == nowUid){
 						useremail.innerHTML = nowUid;
-						console.log(nowUid);
 					}	
 				})
 			})
@@ -77,7 +76,7 @@
 				var nowUid = user.email;
 				test(nowUid);
 	  		}
-		    const userUID = user.uid;
+		    var userUID = user.uid;
 		    const email = user.email;
 		    console.log(userUID);
 		    console.log(email);
@@ -85,7 +84,8 @@
 	    
 	    $(document).ready(function(){
 			  $(document).on('click','#Update',function(){
-				  
+				  firebaseEmailAuth.onAuthStateChanged(function(user) {
+					var userUID = user.uid;
 				    var name = $('#name').val().toString();
 				    var password = $('#password').val().toString();
 					var repassword = $('#repassword').val().toString();
@@ -95,12 +95,16 @@
 				 		if(password == repassword){
 							var data = { username:name, password:password, tel:tel };
 							console.log(data);
+							db.collection('users').doc(userUID).update(data).then(() => {
+								window.location.href = '/controller';
+							})
 				 		} else {
 				 			alert("비밀번호가 일치하지 않습니다.");
 				 		}
 				 	} else {
 				 		alert("모든 항목을 입력해주세요!");
 				 	}
+				  });
 			  })
 	    });
     </script>
