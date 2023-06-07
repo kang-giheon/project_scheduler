@@ -66,6 +66,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js'></script>
 	<script src='/docs/dist/demo-to-codepen.js'></script>
 	<script src="./resources/js/getSchedule.js"></script>
+<<<<<<< HEAD
 	<script>
 	
 		var firebaseDatabase;
@@ -136,6 +137,88 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	<script src="./resources/js/bootstrap.min.js"></script>
 	<script src="./resources/js/perfect-scrollbar.min.js"></script>
 	<script src="./resources/js/common.js"></script>
+=======
+<script>
+	// Initialize Firebase
+	var app = firebase.initializeApp(firebaseConfig);
+
+	const db = app.firestore();
+	
+	async function fetchDocumentsBetweenDates(userUID,start,end) {
+		  try {
+				const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
+				const querySnapshot = await collectionRef.get();
+				let documents = new Array();
+		   
+		    	var i = 0;
+				querySnapshot.forEach((documentSnapshot) => {
+      				const documentData = documentSnapshot.data();
+      				const endDate = documentData["endDate"];
+      				const startDate = documentData["startDate"];
+      				if(startDate<=start && end<=endDate){
+	      				documents[i++] = documentData;
+      				}
+      				else if(startDate>=start && startDate<end){
+      					documents[i++] = documentData;
+      				}
+      				else if(endDate>start && endDate<=end){
+      					documents[i++] = documentData;
+      				}
+		    	});
+				getScheduleInfo(documents,start,end);
+		    console.log("특정 날짜 문서");
+		  } catch (error) {
+		    console.error("문서 조회 중 오류 발생:", error);
+		  }
+	}	
+	document.addEventListener('DOMContentLoaded', function() {
+    	var calendarEl = document.getElementById('calendar');
+
+    	var calendar = new FullCalendar.Calendar(calendarEl, {
+      		selectable: true,
+      		headerToolbar: {
+        		left: 'prev,next today',
+        		center: 'title',
+        		right: 'dayGridMonth,timeGridWeek'
+      		},
+      		locale:"ko",
+      		dayMaxEvents: true,
+      		events: [
+    	  		<%for(int i=0; i<list.size(); i++){
+      				ScheduleDTOImpl dto = (ScheduleDTOImpl)list.get(i);%>
+      				{
+      					title : "<%=dto.getSubject()%>",
+      					start : "<%=dto.getStartDate()%>",
+      					end : "<%=dto.getEndDate()%>"
+      				},
+      				<%
+      				}
+      				%>
+        			{
+        				title : 'default',
+        				start : "2020-01-01",
+        				end : "2020-01-01"
+        			}
+      		],
+      		select: function(info) {
+      			fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
+        	}
+    	});
+    calendar.render();
+  });
+
+</script>
+</head>
+<body>
+  
+  <div id='calendar' style="position : relative;">
+  </div>
+  <form name="frmPopup" method="post">
+	<input type="hidden" name="arg1">
+	<input type="hidden" name="arg2">
+	<input type="hidden" name="arg3">
+	</form> 
+>>>>>>> main
 </body>
 
 </html>

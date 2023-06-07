@@ -30,7 +30,7 @@ public class scheduleController {
 	public String lookup(HttpSession session, Model model) {
 		String email = (String)session.getAttribute("email");
 		if(email==null) {
-			return "login";
+			return "loginneed";
 		}
 		model.addAttribute("email",email);
 		return "lookup";

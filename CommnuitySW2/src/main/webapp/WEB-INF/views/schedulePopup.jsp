@@ -13,7 +13,81 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 <title>일정추가,수정,삭제</title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="./resources/js/click_ok.js"></script>
+<script src="./resources/js/firebaseDB.js"></script>     
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+<script>
+
+var firebaseDatabase;
+
+var app = firebase.initializeApp(firebaseConfig);
+
+const db = app.firestore();
+
+
+$.fn.serializeObject = function(){
+	var o={};
+	var a = this.serializeArray();
+	$.each(a,function(){
+		var name = $.trim(this.name),
+				value = $.trim(this.value);
+				
+		if(o[name]){
+			if(!o[name].push){
+				o[name]=[o[name]];
+			}
+			o[name].push(value || '');
+		} else {
+			o[name] = value || '';
+		}
+	});
+	return o;
+}
+
+
+async function addDocument(userUID, scheduleData) {
+  	
+  		try {
+    		const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
+    		const newDocumentRef = collectionRef.doc();
+
+    		await newDocumentRef.set(scheduleData);
+
+		    console.log("문서 추가 완료");
+		    opener.parent.location.reload();
+		    window.close();
+  		} catch (error) {
+    		console.error("문서 추가 중 오류 발생:", error);
+	  	}
+  	
+}
+
+function click_ok(userID){
+	if(document.addpopup.subject.value=="" && document.addpopup.memo.value==""){
+		alert("제목과 내용을 입력해주세요.");
+	}
+	else{
+		var scheduleData = $('form#scheduleData').serializeObject();
+		// 문서 추가 함수 호출 (userUID는 실제 사용자 UID로 대체해야 함)
+		var userUID = userID // 실제 사용자 UID로 대체
+		addDocument(userUID, scheduleData);	
+	}
+}
+
+function check(i){
+	var upfrm = document.forms[i];
+	upfrm.action="./schedulePopup/update";
+	upfrm.submit();
+}
+
+function deleteSchedule(i){
+	var upfrm = document.forms[i];
+	upfrm.action="./schedulePopup/delete";
+}
+</script>
 </head>
 <body>
 <div>
@@ -26,9 +100,13 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 			<%for(int i=0; i<list.size(); i++){
 				ScheduleDTOImpl dto = (ScheduleDTOImpl)list.get(i);%>
 				<tr>
-					<td><%=dto.getSubject() %></td>
-					<td><%=dto.getMemo()%></td>
-					<td><button>수정</button><button>삭제</button></td>
+					<form name="<%=i %>" method="post">
+					<input type=hidden name="subject" value=<%=dto.getSubject()%>><td><%=dto.getSubject() %></td>
+					<input type=hidden name="memo" value=<%=dto.getMemo()%>><td><%=dto.getMemo()%></td>
+					<input type=hidden name="startDate" value=<%=dto.getStartDate()%>>
+					<input type=hidden name="endDate" value=<%=dto.getEndDate()%>>
+					</form>
+					<td><button onclick="check('<%=i%>')">수정</button><button onclick="delete('<%=i%>')">삭제</button></td>
 				</tr>
 			<%}%>
 		</table>
@@ -53,7 +131,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 			<br>
 			</div>
 		</form>
-		<button onclick="click_ok();" >추가</button>
+		<button onclick="click_ok('<%=request.getAttribute("email")%>');" >추가</button>
 	</div>
 </div>
 </body>
