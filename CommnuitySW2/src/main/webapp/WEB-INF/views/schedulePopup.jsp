@@ -72,20 +72,49 @@ function click_ok(userID){
 	else{
 		var scheduleData = $('form#scheduleData').serializeObject();
 		// 문서 추가 함수 호출 (userUID는 실제 사용자 UID로 대체해야 함)
-		var userUID = userID // 실제 사용자 UID로 대체
-		addDocument(userUID, scheduleData);	
+		addDocument(userID, scheduleData);	
 	}
 }
 
-function check(i){
+function update(i){
 	var upfrm = document.forms[i];
 	upfrm.action="./schedulePopup/update";
 	upfrm.submit();
 }
 
-function deleteSchedule(i){
+function deleteSchedule(i,uid){
 	var upfrm = document.forms[i];
-	upfrm.action="./schedulePopup/delete";
+	async function deleteDocument(userUID, documentID) {
+		  try {
+		    const documentRef = db.collection('schedules').doc(userUID).collection('schedule').doc(documentID);
+		    await documentRef.delete();
+		    console.log("문서가 성공적으로 삭제되었습니다.");
+		    opener.parent.location.reload();
+		    window.close();
+		  } catch (error) {
+		    console.error("문서 삭제 중 오류 발생:", error);
+		  }
+		}
+	async function fetchDocumentId(userUID, subject,startDate,endDate,memo) {
+		  try {
+		    const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
+		    const querySnapshot = await collectionRef.where("subject", "==", subject).where("startDate","==",startDate)
+		    						.where("endDate","==",endDate).where("memo","==",memo).get();
+
+		    querySnapshot.forEach((documentSnapshot) => {
+		      const documentID = documentSnapshot.id;
+		      deleteDocument(userUID,documentID);
+		    });
+		    
+		  } catch (error) {
+		    console.error("문서 ID 조회 중 오류 발생:", error);
+		  } 
+	}
+	var stDate = upfrm.startDate.value;
+	var edDate = upfrm.endDate.value;
+	var sub = upfrm.subject.value;
+	var memo = upfrm.memo.value;
+	fetchDocumentId(uid,sub,stDate,edDate,memo)
 }
 </script>
 </head>
@@ -106,7 +135,7 @@ function deleteSchedule(i){
 					<input type=hidden name="startDate" value=<%=dto.getStartDate()%>>
 					<input type=hidden name="endDate" value=<%=dto.getEndDate()%>>
 					</form>
-					<td><button onclick="check('<%=i%>')">수정</button><button onclick="delete('<%=i%>')">삭제</button></td>
+					<td><button onclick="update('<%=i%>')">수정</button><button onclick="deleteSchedule('<%=i%>','<%=request.getAttribute("email")%>')">삭제</button></td>
 				</tr>
 			<%}%>
 		</table>
