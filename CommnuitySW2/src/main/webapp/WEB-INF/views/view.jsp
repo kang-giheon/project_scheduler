@@ -12,6 +12,7 @@
 
 </head>
 <body>
+	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
 	<div class="container">
 		<h2 id = "title1"></h2>
 		<table class = "table table-boardered table table-hover">

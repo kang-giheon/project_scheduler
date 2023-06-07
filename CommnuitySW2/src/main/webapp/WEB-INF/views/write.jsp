@@ -13,15 +13,11 @@
      	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./resources/css/main.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel = "stylesheet">
-<link rel="stylesheet" href = "https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.js"></script>
+	<link rel="stylesheet" href = "https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 </head>
 <body>
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
 	
-	
-
-
 	<div class="container" style = "padding-left:180px">
 		<h2>글 작성</h2>
 		<div>
