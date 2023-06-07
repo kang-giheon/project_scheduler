@@ -29,7 +29,7 @@
             <label>비밀번호</label>
             <input type="password" id="password" class="form-control" autocomplete="off">
         </div>
-        <input id="Login" type="button" class="login-btn-box" value="로그인" onclick="emailCheck();" >
+        <input id="Login" type="button" class="login-btn-box" value="로그인">
         <div class="ot-btn">
         	<div class="ot-btn-in">
 	           <span><a href="./join">회원가입</a></span>
@@ -98,7 +98,7 @@
 			$.ajax({
 				data :{ email : $('#email').val()},
 				url : "./login",
-				type : "POST",
+				type : "POST"
 			});
 		}
 	    //로그인 성공했을 때
