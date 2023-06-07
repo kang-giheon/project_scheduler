@@ -68,6 +68,7 @@
 		    console.error("문서 조회 중 오류 발생:", error);
 		  }
 	}
+	if('${email}'!=""){
 	$(document).ready(function(){
 		var id = '${email}';
 		var date = new Date();
@@ -77,6 +78,7 @@
 		console.log(tomorrow);
 		fetchDocumentsBetweenDates(id,today,tomorrow)
 	});
+	}
 	</script>
 </head>
 <body>

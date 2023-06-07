@@ -43,20 +43,8 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
     	width: 157px;
     }
 
-  </style>	
-</head>
-<body>
-	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
-	<div>
-	  <div id='calendar' style="position : relative;">
-	  </div>
-	  <form name="frmPopup" method="post">
-		<input type="hidden" name="arg1">
-		<input type="hidden" name="arg2">
-		<input type="hidden" name="arg3">
-	  </form>
-	</div>
-  	<script src="./resources/js/firebaseDB.js"></script>     
+  </style>
+  <script src="./resources/js/firebaseDB.js"></script>     
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -66,79 +54,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js'></script>
 	<script src='/docs/dist/demo-to-codepen.js'></script>
 	<script src="./resources/js/getSchedule.js"></script>
-<<<<<<< HEAD
 	<script>
-	
-		var firebaseDatabase;
-	
-		// Initialize Firebase
-		var app = firebase.initializeApp(firebaseConfig);
-	
-		const db = app.firestore();
-		let documents;
-		
-		async function fetchDocumentsBetweenDates(userUID,start,end) {
-			  try {
-				const querySnapshot = await db.collection('schedules').doc(userUID).collection('schedule')
-				.where("startDate", ">=", start)
-			    .where("startDate", "<", end)
-			    .get();
-			   
-			    //모든 문서 출력
-			    documents = querySnapshot.docs.map((doc) => doc.data());
-			    getScheduleInfo(documents,start,end);
-	
-			    console.log(JSON.stringify(documents));
-			    console.log("문서 조회 완료");
-			  } catch (error) {
-			    console.error("문서 조회 중 오류 발생:", error);
-			  }
-			}	
-		document.addEventListener('DOMContentLoaded', function() {
-	    	var calendarEl = document.getElementById('calendar');
-	
-	    	var calendar = new FullCalendar.Calendar(calendarEl, {
-	      		selectable: true,
-	      		headerToolbar: {
-	        		left: 'prev,next today',
-	        		center: 'title',
-	        		right: 'dayGridMonth,timeGridWeek'
-	      		},
-	      		locale:"ko",
-	      		dayMaxEvents: true,
-	      		events: [
-	    	  		<%for(int i=0; i<list.size(); i++){
-	      				ScheduleDTOImpl dto = (ScheduleDTOImpl)list.get(i);%>
-	      				{
-	      					title : "<%=dto.getSubject()%>",
-	      					start : "<%=dto.getStartDate()%>",
-	      					end : "<%=dto.getEndDate()%>"
-	      				},
-	      				<%
-	      				}
-	      				%>
-	        			{
-	        				title : 'default',
-	        				start : "2020-01-01",
-	        				end : "2020-01-01"
-	        			}
-	      		],
-	      		select: function(info) {
-	          	//alert('selected ' + info.startStr + ' to ' + info.endStr );
-	      			fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
-	        	}
-	    	});
-	    calendar.render();
-	  });
-	
-	</script> 
-	<script src="./resources/js/jquery.js"></script>
-	<script src="./resources/js/tether.min.js"></script>
-	<script src="./resources/js/bootstrap.min.js"></script>
-	<script src="./resources/js/perfect-scrollbar.min.js"></script>
-	<script src="./resources/js/common.js"></script>
-=======
-<script>
 	// Initialize Firebase
 	var app = firebase.initializeApp(firebaseConfig);
 
@@ -207,18 +123,18 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
     calendar.render();
   });
 
-</script>
+</script>	
 </head>
 <body>
-  
-  <div id='calendar' style="position : relative;">
-  </div>
-  <form name="frmPopup" method="post">
-	<input type="hidden" name="arg1">
-	<input type="hidden" name="arg2">
-	<input type="hidden" name="arg3">
-	</form> 
->>>>>>> main
+	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
+	<div>
+	  <div id='calendar' style="position : relative;">
+	  </div>
+	  <form name="frmPopup" method="post">
+		<input type="hidden" name="arg1">
+		<input type="hidden" name="arg2">
+		<input type="hidden" name="arg3">
+	  </form>
+	</div>
 </body>
-
 </html>
