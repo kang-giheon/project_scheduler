@@ -9,47 +9,6 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel = "stylesheet">
 <link rel="stylesheet" href = "https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.js"></script>
-
-</head>
-<body>
-	<div class="container">
-		<h2 id = "title1"></h2>
-		<table class = "table table-boardered table table-hover">
-			<tr>
-				<td>제목</td>
-				<td  id = "title2"></td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td id = "username"></td>
-			</tr>
-			<tr>
-				<td>작성일</td>
-				<td id = "date"></td>
-			</tr>
-			<tr>
-				<td>조회수</td>
-				<td id = "viewcnt"></td>
-			</tr>
-			<tr>
-				<td colspan="2">내용</td>
-			</tr>
-			<tr>
-				<td colspan="2" id = "content"></td>
-			</tr>
-			
-			<tr>
-				<td colspan="2" class="text-center">
-					<button onclick="location.href='update?username=' + encodeURIComponent(username)">수정하기</button>
-					<button onclick="location.href='free'">목록보기</button>
-					<button onclick="chkDelete(${board.bno })">삭제하기</button>
-					<button onclick="location.href='write'">신규등록</button>
-				</td>
-
-			</tr>
-
-		</table>
-	</div>
 	
 		<script src="./resources/js/firebaseDB.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
@@ -58,7 +17,7 @@
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
 	<script src="./resources/js/jquery.js"></script>
-	
+
 <script type="module">
 //파이어베이스 연동
 import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
@@ -128,22 +87,98 @@ document.getElementById('title2').innerHTML = titlehtml;
 
 var usernamehtml = '';
 usernamehtml += '<td>' + username+'</td>';
-document.getElementById('username').innerHTML = usernamehtml;
+document.getElementById('username1').innerHTML = usernamehtml;
 
 var datehtml = '';
 datehtml += '<td>' + date+'</td>';
-document.getElementById('date').innerHTML = datehtml;
+document.getElementById('date1').innerHTML = datehtml;
 
 var viewcnthtml = '';
 viewcnthtml += '<td>' + viewcnt+'</td>';
-document.getElementById('viewcnt').innerHTML = viewcnthtml;
+document.getElementById('viewcnt1').innerHTML = viewcnthtml;
 
 var contenthtml = '';
 contenthtml += '<td>' + content+'</td>';
-document.getElementById('content').innerHTML = contenthtml;
+document.getElementById('content1').innerHTML = contenthtml;
 
+$(document).on('click','#delete',function(){
+	alert("삭제하시겠습니까?");
+	//삭제하고 alert창뜨고 확인누르면 다른창으로 가지긴하는데 가면 삭제가안됨;;;
+	db.collection('board').get().then((test)=>{
+		test.forEach((doc)=>{
+			
+			if(doc.data().title == title && doc.data().content == content){
+				console.log("find");
+				var findId = doc.id;
+				db.collection('board').doc(findId).delete().then(() => {
+						alert("삭제되었습니다");
+						window.location.href = 'free';
+					});
+					
+			}
+			
+		})
+	})
 
+		
+		
+		
+		
+	});
 </script>
+
+<script>
+
+   function goupdate() {
+	   var username = username1.innerHTML;
+	   var viewcnt = viewcnt1.innerHTML;
+	   var date = date1.innerHTML;
+	   var title = title2.innerHTML;
+	   var content = content1.innerHTML
+	   window.location.href = "update?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
+   }
+  </script>
+</head>
+<body>
+	<div class="container">
+		<h2 id = "title1"></h2>
+		<table class = "table table-boardered table table-hover">
+			<tr>
+				<td>제목</td>
+				<td  id = "title2"></td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td id = "username1"></td>
+			</tr>
+			<tr>
+				<td>작성일</td>
+				<td id = "date1"></td>
+			</tr>
+			<tr>
+				<td>조회수</td>
+				<td id = "viewcnt1"></td>
+			</tr>
+			<tr>
+				<td colspan="2">내용</td>
+			</tr>
+			<tr>
+				<td colspan="2" id = "content1"></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" class="text-center">
+					<button onclick="goupdate()"><div>수정하기</div></button>
+					<button onclick="location.href='free'">목록보기</button>
+					<input type="button" id="delete" value = "삭제하기" >
+					<button onclick="location.href='write'">신규등록</button>
+				</td>
+
+			</tr>
+
+		</table>
+	</div>
+
 
 	
 	<script src="./resources/js/jquery.js"></script>
