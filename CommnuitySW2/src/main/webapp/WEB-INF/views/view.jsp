@@ -55,7 +55,7 @@ var username = params.username;
 var date = params.date;
 var title = params.title;
 var content = params.content;
-
+var useremail;
 	db.collection('board').get().then((test)=>{
 		test.forEach((doc)=>{
 			console.log(doc.data());
@@ -63,6 +63,7 @@ var content = params.content;
 				console.log("find!");
 				var newcnt = doc.data().viewcnt + 1;
 				var findId = doc.id;
+				useremail = doc.data().uid;
 				db.collection('board').doc(findId).update({
   viewcnt: newcnt
 })
@@ -111,10 +112,22 @@ $(document).on('click','#delete',function(){
 			if(doc.data().title == title && doc.data().content == content){
 				console.log("find");
 				var findId = doc.id;
-				db.collection('board').doc(findId).delete().then(() => {
+			firebase.auth().onAuthStateChanged(function(user) {
+				console.log(user.email);//지금 로그인 사용자 email
+				console.log(useremail);//작성자 email
+  				if (user.email == useremail) {
+				
+					db.collection('board').doc(findId).delete().then(() => {
 						alert("삭제되었습니다");
 						window.location.href = 'free';
-					});
+					});			
+  				}else{
+					alert("작성자만 삭제가능합니다.");
+				}
+			});
+
+
+				
 					
 			}
 			
@@ -125,7 +138,29 @@ $(document).on('click','#delete',function(){
 		
 		
 		
+});
+$(document).on('click','#goupdate',function(){
+
+	var username = username1.innerHTML;
+	var viewcnt = viewcnt1.innerHTML;
+	var date = date1.innerHTML;
+	var title = title2.innerHTML;
+	var content = content1.innerHTML
+	
+	firebase.auth().onAuthStateChanged(function(user) {
+			console.log(user.email);//지금 로그인 사용자 email
+			console.log(useremail);//작성자 email
+  			if (user.email == useremail) {
+				
+				window.location.href="/controller/update?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;			
+  			}else{
+				alert("작성자만 수정가능합니다.");
+			}
 	});
+
+
+	//window.location.href = "update?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
+});
 </script>
 
 <script>
@@ -141,6 +176,7 @@ $(document).on('click','#delete',function(){
   </script>
 </head>
 <body>
+	
 	<div class="container">
 		<h2 id = "title1"></h2>
 		<table class = "table table-boardered table table-hover">
@@ -169,9 +205,10 @@ $(document).on('click','#delete',function(){
 			
 			<tr>
 				<td colspan="2" class="text-center">
-					<button onclick="goupdate()"><div>수정하기</div></button>
+					<input type="button" id="goupdate" value = "수정하기" >
 					<button onclick="location.href='free'">목록보기</button>
 					<input type="button" id="delete" value = "삭제하기" >
+					
 					<button onclick="location.href='write'">신규등록</button>
 				</td>
 
