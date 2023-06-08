@@ -41,7 +41,8 @@
 			<tbody>
 				<tr>
 					<td colspan="5" class="text-center">
-						<button onclick="location.href='write'">신규등록</button>
+						
+						<input type="button" id="gowrite" value = "신규등록" >
 					</td>
 				</tr>
 				
@@ -87,7 +88,19 @@
 		})
 	$("#table").append(html);
 	})
-	
+
+	$(document).on('click','#gowrite',function(){
+		firebase.auth().onAuthStateChanged(function(user) {
+  			if (user) {
+				
+				window.location.href="/controller/write"			
+  			}else{
+				alert("로그인이후 신규등록이 가능합니다.");
+			}
+		});
+		
+		
+	});
 
 	</script>
 	

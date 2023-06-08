@@ -109,10 +109,10 @@
 	//		console.log(username);
 	//	}
 	//})
-	
+	var nowUid;
 	firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
-			var nowUid = user.email;
+			nowUid = user.email;
 			test(nowUid);
 			
   		}
@@ -131,7 +131,7 @@
 		firebaseEmailAuth.onAuthStateChanged( async (board) => {
 			
 			var viewcnt = 0;
-			var data = {username:nowusername,title:title, content:content,date:currentTime,viewcnt:viewcnt};
+			var data = {username:nowusername,title:title, content:content,date:currentTime,viewcnt:viewcnt,uid:nowUid};
 			var bid = 0;
 			const res = await db.collection('board').doc(board.bid).set(data);
 			window.location.href="/controller/free"
