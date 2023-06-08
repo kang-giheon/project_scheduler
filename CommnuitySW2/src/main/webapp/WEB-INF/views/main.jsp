@@ -15,6 +15,71 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/style.css">
 	<link rel="stylesheet" href="./resources/css/main.css">
+	<script src="./resources/js/jquery.js"></script>
+	<script src="./resources/js/firebaseDB.js"></script>     
+	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+	<script>
+	var firebaseDatabase;
+
+	var app = firebase.initializeApp(firebaseConfig);
+
+	const db = app.firestore();
+	async function fetchDocumentsBetweenDates(userUID,start,end) {
+		  try {
+				const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
+				const querySnapshot = await collectionRef.get();
+				let documents = new Array();
+		   
+		    	var i = 0;
+				querySnapshot.forEach((documentSnapshot) => {
+    				const documentData = documentSnapshot.data();
+    				const endDate = documentData["endDate"];
+    				const startDate = documentData["startDate"];
+    				if(startDate<=start && end<=endDate){
+	      				documents[i++] = documentData;
+    				}
+    				else if(startDate>=start && startDate<end){
+    					documents[i++] = documentData;
+    				}
+    				else if(endDate>start && endDate<=end){
+    					documents[i++] = documentData;
+    				}
+		    	});
+				console.log(documents);
+				for(let i in documents){
+					var doc=documents[i];
+					let form = document.getElementById('form');
+					let scdlist = document.createElement('p');
+					let br = document.createElement('br');
+					//scdlist.setAttribute('type','checkbox');
+					const memo = doc["memo"];
+					const sub = doc["subject"];
+					scdlist.innerHTML=memo;
+					form.appendChild(scdlist);
+					form.appendChild(br);
+					form.appendChild(br);
+				}
+		    console.log("특정 날짜 문서");
+		  } catch (error) {
+		    console.error("문서 조회 중 오류 발생:", error);
+		  }
+	}
+	if('${email}'!=""){
+	$(document).ready(function(){
+		var id = '${email}';
+		var date = new Date();
+		var today =  date.toISOString().substring(0,10);
+		var tomorrow = new Date(date.setDate(date.getDate()+1)).toISOString().substring(0,10);;
+		console.log(id);
+		console.log(tomorrow);
+		fetchDocumentsBetweenDates(id,today,tomorrow)
+	});
+	}
+	</script>
 </head>
 <body>
 
@@ -24,16 +89,12 @@
 	<div id="content">
 	    <div class="div-fl">
 	      <div class="card">
-	      	<iframe src="http://localhost:8080/controller/schedule" width=100% height=650px></iframe>
+	      	<iframe src="http://localhost:8080/controller/lookup" width=100% height=650px></iframe>
 	      </div>
 	      <div class="card p-3">
 	        <blockquote class="card-block card-blockquote">
 	        	<h2 class="card-title">Scheduler</h2>
-	          	<p><form method="get" action="CheckboxServlet">
-					<input type="checkbox" name="item" value="운동1"> 운동 1 - 3세트<br><br>
-					<input type="checkbox" name="item" value="운동2"> 운동 2 - 1세트<br><br>
-					<input type="checkbox" name="item" value="운동3"> 운동 3 - 3세트<br><br>
-					<input type="checkbox" name="item" value="ㅇㅇ와운동"> ㅇㅇ와 운동하기<br>
+	          	<p><form id="form" method="get" action="CheckboxServlet">
 				</form></p>
 	        </blockquote>
 	      </div>

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scheduler.dto.ScheduleDTOImpl;
 import com.scheduler.service.ScheduleService;
+
+import net.sf.json.JSONArray;
 
 @RequestMapping("/schedulePopup")
 @Controller
@@ -26,23 +28,34 @@ public class PopupController {
 	@Resource
 	private ScheduleService service;
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public String showPopup(HttpServletRequest request, Model model) throws Exception {
-		//원래는 db이용해서 받은 인자로 해당 요일 일정들 출력한 후 model객체에 담아 넘겨야 함. 
+	@PostMapping
+	public String showPopup(HttpSession session,HttpServletRequest request, Model model) throws Exception {
+		List<ScheduleDTOImpl> list = new ArrayList<>();
+		  try {
+			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
+			    info = JSONArray.fromObject(request.getParameter("arg1"));  
+		      for (Map<String, Object> memberInfo : info) {
+		    	  ScheduleDTOImpl dto = new ScheduleDTOImpl();
+		    	  dto.setSubject(memberInfo.get("subject").toString());
+		    	  dto.setStartDate(memberInfo.get("startDate").toString());
+		    	  dto.setEndDate(memberInfo.get("endDate").toString());
+		    	  dto.setMemo(memberInfo.get("memo").toString());
+		    	  list.add(dto);
+		      }
+		  }catch (Exception e) {
+				 }
 		ScheduleDTOImpl obj = new ScheduleDTOImpl();
-		String start = request.getParameter("arg1");
-		String end = request.getParameter("arg2");
-		obj.setStartDate(start);
-		obj.setEndDate(end);
+		obj.setStartDate(request.getParameter("arg2"));
+		obj.setEndDate(request.getParameter("arg3"));
 		model.addAttribute("obj",obj);
-		model.addAttribute("schedule",service.showSchedulePickDate(obj));
+		model.addAttribute("schedule",list);
+		model.addAttribute("email",(String)session.getAttribute("email"));
 		
 		return "schedulePopup";
 	}
 	
-	@PostMapping
+	@PostMapping("/add")
 	public Map<Object,Object> addSchedule(@RequestBody ScheduleDTOImpl sc) throws Exception{
-		System.out.println(sc.getSubject());
 		Map<Object,Object>map = new HashMap<Object,Object>();
 		service.addSchedule(sc);
 		
@@ -50,11 +63,16 @@ public class PopupController {
 	}
 	
 	@PostMapping("/update")
-	public void updateSchedule(@ModelAttribute("ScheduleDTO")ScheduleDTOImpl sc) {
+	public String updateSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
 		
+		model.addAttribute("obj",sc);
+		model.addAttribute("email",(String)session.getAttribute("email"));
+		return "updateSchedule";
 	}
 	@PostMapping("/delete")
-	public void deleteSchedule(@ModelAttribute("ScheduleDTO")ScheduleDTOImpl sc) {
-		
+	public String deleteSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
+		model.addAttribute("obj",sc);
+		model.addAttribute("email",(String)session.getAttribute("email"));
+		return "deleteSchedule";
 	}
 }

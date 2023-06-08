@@ -14,6 +14,13 @@
 	<link rel="stylesheet" href="./resources/css/bootstrap/perfect-scrollbar.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/style.css">
+	<script src="./resources/js/jquery.js"></script>
+	<script src="./resources/js/firebaseDB.js"></script>  
+   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>  
 </head>
 <body>
 
@@ -34,7 +41,7 @@
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">마이페이지</a>
 			<ul class="collapse list-unstyled" id="pageSubmenu">
 				<li><a id="mypage" href="/controller/mypage">내 정보 수정</a></li>
-				<li><a id="scheduler" href="/controller/schedule">나의 스케줄러</a></li>
+				<li><a id="scheduler" href="/controller/lookup">나의 스케줄러</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -60,15 +67,8 @@
 		</p>
 	</div>
 </nav>
-	<script src="./resources/js/jquery.js"></script>
-	<script src="./resources/js/firebaseDB.js"</script>  
-   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>  
 	<script>
-		app = firebase.initializeApp(firebaseConfig);
+		var app = firebase.initializeApp(firebaseConfig);
  	    firebaseEmailAuth = app.auth();
 	    firebaseDatabase = app.database();
  	    
@@ -91,6 +91,7 @@
 			//가입버튼 눌렀을 때
        	$(document).on('click','#logged-in',function(){
        		firebaseEmailAuth.signOut().then(function(){
+       			window.location.href="/controller/login/logout"
        			window.location.href="/controller"
        		})
 	      });

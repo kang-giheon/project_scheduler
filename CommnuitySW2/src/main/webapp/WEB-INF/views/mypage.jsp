@@ -21,12 +21,12 @@
       <div class="join-box">
                 <div id="loginBoxTitle">내 정보 수정</div>
         <div class="form-group">
-            <label>이름</label>
-             <input id="name" type="text" name="username" placeholder="이름 입력" class="form-control" style="ime-mode:disabled" required autofocus>
+            <label>아이디(이메일) - 수정 불가능</label>
+             <label id="useremail" class="form-control"></label>
         </div>
         <div class="form-group">
-            <label>아이디(이메일)</label>
-            <input id="email" type="email" name="email" placeholder="이메일 입력" class="form-control" autocomplete="off" required>
+            <label>이름</label>
+            <input id="name" type="text" name="email" placeholder="이름 입력" class="form-control" autocomplete="off" required autofocus>
         </div>
         <div class="form-group">
             <label>비밀번호</label>
@@ -41,11 +41,82 @@
             <input id="tel" type="text" name="phone" placeholder="전화번호 입력" class="form-control"  autocomplete="off" required> 
         </div>
         
-        <input type="button" id="update" value="수정하기" style="align-items: center; margin-top:10px; background-color:black;
+        <input type="button" id="Update" value="수정하기" style="align-items: center; margin-top:10px; background-color:black;
   						color:white; border-radius:5px; width:100%; padding:10px;" >
   						
       </div>
     </div>
+    
+   	<script src="./resources/js/firebaseDB.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+	<script src="./resources/js/jquery.js"></script>
+	
+	<script>
+	  var app = firebase.initializeApp(firebaseConfig);
+	  var firebaseEmailAuth = app.auth();
+	  const db = firebase.firestore();
+	
+	  function test(nowUid) {
+	    db.collection('users').get().then((test) => {
+	      test.forEach((doc) => {
+	        var allEmail = doc.data().email;
+	        if (allEmail == nowUid) {
+	          useremail.innerHTML = nowUid;
+	        }
+	      })
+	    })
+	  }
+	
+	  firebaseEmailAuth.onAuthStateChanged(function(user) {
+	    if (user) {
+	      var nowUid = user.email;
+	      test(nowUid);
+	    }
+	    var userUID = user.uid;
+	    const email = user.email;
+	    console.log(userUID);
+	    console.log(email);
+	  });
+	
+	  $(document).ready(function() {
+	    $(document).on('click', '#Update', function() {
+	      firebaseEmailAuth.onAuthStateChanged(function(user) {
+	        var userUID = user.uid;
+	        var name = $('#name').val().toString();
+	        var password = $('#password').val().toString();
+	        var repassword = $('#repassword').val().toString();
+	        var tel = $('#tel').val().toString();
+	
+	        if (name != "" && password != "" && repassword != "" && tel != "") {
+	          if (password == repassword) {
+	            var data = { username: name, password: password, tel: tel };
+	            console.log(data);
+	            user.updatePassword(password).then(() => {
+	              alert("정보가 수정되었습니다.");
+	            }).catch((error) => {
+	              console.log(error);
+	              alert("정보 수정 중 오류가 발생했습니다.");
+	            });
+	            db.collection('users').doc(userUID).update(data).then(() => {
+	              window.location.href = '/controller';
+	            }).catch((error) => {
+	              console.log(error);
+	              alert("정보 수정 중 오류가 발생했습니다.");
+	            });
+	          } else {
+	            alert("비밀번호가 일치하지 않습니다.");
+	          }
+	        } else {
+	          alert("모든 항목을 입력해주세요!");
+	        }
+	      });
+	    })
+	  });
+	</script>
     
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>

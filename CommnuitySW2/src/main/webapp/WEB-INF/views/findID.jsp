@@ -43,7 +43,7 @@
       </div>
     </div>
     
-	<script src="./resources/js/firebaseDB.js"</script>     
+	<script src="./resources/js/firebaseDB.js"></script>     
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -80,7 +80,7 @@
 		 	console.log(getUser);
 			
 			if(getname != "" && gettel != ""){
-					if(dbUsername.includes(getname) == true && dbUsertel.includes(gettel)){
+					if(dbUsername.includes(getname) && dbUsertel.includes(gettel)){
 						db.collection('users').get().then((test)=>{
 							test.forEach((doc)=>{
 								var tel = doc.data().tel;

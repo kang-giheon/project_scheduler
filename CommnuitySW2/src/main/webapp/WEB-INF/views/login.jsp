@@ -29,7 +29,7 @@
             <label>비밀번호</label>
             <input type="password" id="password" class="form-control" autocomplete="off">
         </div>
-        <input id="Login" type="button" class="login-btn-box" value="로그인" >
+        <input id="Login" type="button" class="login-btn-box" value="로그인">
         <div class="ot-btn">
         	<div class="ot-btn-in">
 	           <span><a href="./join">회원가입</a></span>
@@ -43,15 +43,14 @@
         </div>
       </div>
     </div>
-
-	<script src="./resources/js/firebaseDB.js"</script>    
-   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+	<script src="./resources/js/firebaseDB.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
-		<script src="./resources/js/jquery.js"></script>
-
+	<script src="./resources/js/jquery.js"></script>
+	 
 	<script type="module">
 	  // Import the functions you need from the SDKs you need
 	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
@@ -64,8 +63,8 @@
 	  // https://firebase.google.com/docs/web/setup#available-libraries
 
 		// Initialize Firebase
-		var app = firebase.initializeApp(firebaseConfig);
 
+		var app = firebase.initializeApp(firebaseConfig);
 	    var firebaseEmailAuth = app.auth();
 	    var firebaseDatabase = app.database();
 
@@ -94,11 +93,18 @@
 			  }
 			});
 		});
-    
+    	
+		function emailCheck(){
+			$.ajax({
+				data :{ email : $('#email').val()},
+				url : "./login",
+				type : "POST"
+			});
+		}
 	    //로그인 성공했을 때
 	    function loginSuccess(firebaseUser){
 	        alert("로그인 성공");
- 
+			emailCheck();
 	    	//메인 페이지로 이동
 	   		window.location.href = "/controller"
 	    }
