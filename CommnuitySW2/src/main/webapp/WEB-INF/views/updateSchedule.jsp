@@ -27,7 +27,7 @@ async function updateDocument(userUID, documentID, newData) {
 		
 	    
 	    console.log("문서 수정 완료");
-	    opener.parent.location.reload();
+	    opener.location.href="./lookup";
 	    window.close();
 	  } catch (error) {
 	    console.error("문서 수정 중 오류 발생:", error);
