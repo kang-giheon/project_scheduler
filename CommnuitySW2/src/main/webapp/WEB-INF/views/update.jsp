@@ -3,58 +3,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>게시글 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+     	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./resources/css/main.css">
 </head>
 <body>
-
+	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
 	<div>
-		<div class="container">
+		<div class="container" style="margin:50px; margin-left:300px;">
 			<form>
 				<h2>
-					
+					게시글 수정
 				</h2>
 				
-				<table>
+				<table class = "table table-boardered table-hover">
 					<tr>
-						<td>제목</td>
-						<td><input type="text" id="title1"></td>
-					</tr>
-					<tr>
-						<td>조회수</td>
-						<td id = "viewcnt1"></td>
-					</tr>
-					
-					<tr>
-						<td>작성자</td>
+						<th class="table-header" style="background-color:#A9A9A9">제목</th>
+						<td><input type="text" id="title1" style="width:100%; border:0;"></td>
+						<th class="table-header" style="background-color:#A9A9A9">작성자</th>
 						<td id="username1"></td>
 					</tr>
-					
 					<tr>
-						<td>작성일</td>
+						<th class="table-header" style="background-color:#A9A9A9">작성일</th>
 						<td id="date1"></td>
+						<th class="table-header" style="background-color:#A9A9A9">조회수</th>
+						<td id = "viewcnt1"></td>
 					</tr>
-					
 					<tr>
-						<td colspan="2"><b>내용</b></td>
+						<th colspan="4" class="table-header" style="background-color:#A9A9A9">내용</th>
 					</tr>
-					
 					<tr>
-						<td colspan="2">
-							<textarea rows="10" cols="150" id = "content1"></textarea>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="2">
-							<input type="button" id="updatedata" value = "수정하기" >
-							
+						<td colspan="4">
+							<textarea style="border:0; width:100%; height:500px" name="content" id="content1"></textarea>
 						</td>
 					</tr>
 				</table>
 			</form>
-
-			<button onclick="location.href = 'free'">목록으로</button>
+			
+			<button id="updatedata" class="pull-right" style="align-items:center; background-color:black;
+  								color:white; border-radius:5px; padding:10px;">수정하기</button>
+			<button onclick="location.href = 'free'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
+  								color:white; border-radius:5px; padding:10px;">목록으로</button>
 		</div>
 	</div>
 		<script src="./resources/js/firebaseDB.js"></script>

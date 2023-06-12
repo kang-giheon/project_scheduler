@@ -126,7 +126,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 </script>	
 </head>
 <body>
-	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
+	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
 	<div>
 	  <div id='calendar' style="position : relative;">
 	  </div>
@@ -136,5 +136,10 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 		<input type="hidden" name="arg3">
 	  </form>
 	</div>
+	<script src="./resources/js/jquery.js"></script>
+	<script src="./resources/js/tether.min.js"></script>
+	<script src="./resources/js/bootstrap.min.js"></script>
+	<script src="./resources/js/perfect-scrollbar.min.js"></script>
+	<script src="./resources/js/common.js"></script>
 </body>
 </html>

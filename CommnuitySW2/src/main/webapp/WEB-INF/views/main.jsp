@@ -15,6 +15,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/style.css">
 	<link rel="stylesheet" href="./resources/css/main.css">
+	
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/firebaseDB.js"></script>     
 	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>

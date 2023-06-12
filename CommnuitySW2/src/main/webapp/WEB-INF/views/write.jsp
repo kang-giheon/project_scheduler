@@ -12,42 +12,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
      	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./resources/css/main.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel = "stylesheet">
-	<link rel="stylesheet" href = "https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 </head>
 <body>
 	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
 	
-	<div class="container" style = "padding-left:180px">
+	<div class="container" style="margin:50px; margin-left:300px;">
 		<h2>글 작성</h2>
 		<div>
 			<form method="post" action="writeOk.do">
-				<table class = " table table-boardered table table-hover">
+				<table class = "table table-boardered table-hover">
 					<tr>
-						<td>작성자</td>
+						<th class="table-header" style="background-color:#A9A9A9">작성자</th>
 						<td>
 							<lable id = "nowuser"></lable>
 						</td>
+						<th class="table-header" style="background-color:#A9A9A9">작성일</th>
+						<td id = "date1"></td>
 					</tr>
 					<tr>
-						<td>제목</td>
-						<td>
-							<input type="text" name = "title" id = "title">
+						<th class="table-header" style="background-color:#A9A9A9">제목</td>
+						<td colspan="3">
+							<input type="text" style="width:100%; border:0;" name = "title" id = "title">
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">
-							<textarea rows="10" cols="150" name="content" id="content1"></textarea>
-						</td>
+						<th colspan="4" class="table-header" style="background-color:#A9A9A9">내용</th>
 					</tr>
 					<tr>
-						<td colspan="2">
-							<input type="button" id="storage" value = "저장" >
+						<td colspan="4">
+							<textarea style="border:0; width:100%; height:500px" name="content" id="content1"></textarea>
 						</td>
 					</tr>
 				</table>
 			</form>
-			<button onclick="location.href = 'free'">목록으로</button>
+			
+			<button onclick="location.href = 'free'" class="pull-right" style="align-items:center; background-color:black;
+  								color:white; border-radius:5px; padding:10px;">목록으로</button>
+			<button id="storage" class="pull-right" style="margin-right:5px; align-items:center; background-color:black;
+  								color:white; border-radius:5px; padding:10px;">저장</button>
 		</div>
 	
 	
@@ -82,7 +84,7 @@
 	var hours = d.getHours().toString();
 	var min = d.getMinutes().toString();
 	var sec = d.getSeconds().toString();
-	var currentTime = year+"년" + month+ "월" + day +"일"+hours+"시"+min+"분";
+	var currentTime = year+"년 " + month+ "월 " + day +"일 "+hours+"시 "+min+"분";
 	var nowusername;
 	//현재 로그인한 user의 username 뽑아냄
 	function test(nowUid){
@@ -94,6 +96,8 @@
 					nowuser.innerHTML = nowUser;
 					nowusername = nowUser;
 					console.log(nowusername);
+
+					document.getElementById('date1').innerHTML = currentTime;
 				}	
 			})
 		})
