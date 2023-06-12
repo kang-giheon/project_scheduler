@@ -117,7 +117,12 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
         			}
       		],
       		select: function(info) {
-      			fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
+      			if("<%=request.getAttribute("email")%>"!="null"){
+      				fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
+      			}else{
+      				alert("로그인해주세요.");
+      			}
+      			
         	}
     	});
     calendar.render();
