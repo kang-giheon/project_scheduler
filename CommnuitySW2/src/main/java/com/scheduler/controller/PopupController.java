@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.scheduler.dto.ScheduleDTOImpl;
-import com.scheduler.service.ScheduleService;
 
 import net.sf.json.JSONArray;
 
@@ -25,8 +24,6 @@ import net.sf.json.JSONArray;
 @Controller
 public class PopupController {
 	
-	@Resource
-	private ScheduleService service;
 	
 	@PostMapping
 	public String showPopup(HttpSession session,HttpServletRequest request, Model model) throws Exception {
@@ -54,25 +51,11 @@ public class PopupController {
 		return "schedulePopup";
 	}
 	
-	@PostMapping("/add")
-	public Map<Object,Object> addSchedule(@RequestBody ScheduleDTOImpl sc) throws Exception{
-		Map<Object,Object>map = new HashMap<Object,Object>();
-		service.addSchedule(sc);
-		
-		return map;
-	}
-	
 	@PostMapping("/update")
 	public String updateSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
 		
 		model.addAttribute("obj",sc);
 		model.addAttribute("email",(String)session.getAttribute("email"));
 		return "updateSchedule";
-	}
-	@PostMapping("/delete")
-	public String deleteSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
-		model.addAttribute("obj",sc);
-		model.addAttribute("email",(String)session.getAttribute("email"));
-		return "deleteSchedule";
 	}
 }

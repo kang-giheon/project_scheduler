@@ -17,14 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.scheduler.dto.ScheduleDTOImpl;
-import com.scheduler.service.ScheduleService;
 import net.sf.json.JSONArray; 
 
 @Controller
 public class scheduleController {
-	
-	@Resource
-	private ScheduleService service;
+
 	
 	@GetMapping("/lookup")
 	public String lookup(HttpSession session, Model model) {
