@@ -46,7 +46,7 @@
 				</table>
 			</form>
 			
-			<button onclick="location.href = 'free'" class="pull-right" style="align-items:center; background-color:black;
+			<button onclick="location.href = 'info'" class="pull-right" style="align-items:center; background-color:black;
   								color:white; border-radius:5px; padding:10px;">목록으로</button>
 			<button id="storage" class="pull-right" style="margin-right:5px; align-items:center; background-color:black;
   								color:white; border-radius:5px; padding:10px;">저장</button>
@@ -132,13 +132,13 @@
 	});
 
 	function joinDB(title, content) {
-		firebaseEmailAuth.onAuthStateChanged( async (board) => {
+		firebaseEmailAuth.onAuthStateChanged( async (infoboard) => {
 			
 			var viewcnt = 0;
 			var data = {username:nowusername,title:title, content:content,date:currentTime,viewcnt:viewcnt,uid:nowUid};
 			var bid = 0;
-			const res = await db.collection('board').doc(board.bid).set(data);
-			window.location.href="/controller/free"
+			const res = await db.collection('infoboard').doc(infoboard.bid).set(data);
+			window.location.href="/controller/info"
 			})
 	}
 	</script>

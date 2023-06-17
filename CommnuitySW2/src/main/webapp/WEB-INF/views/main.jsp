@@ -15,6 +15,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/style.css">
 	<link rel="stylesheet" href="./resources/css/main.css">
+	
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/firebaseDB.js"></script>     
 	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
@@ -79,6 +80,63 @@
 		fetchDocumentsBetweenDates(id,today,tomorrow)
 	});
 	}
+	
+	var html = '';
+	var cnt = 0;
+	var positon = -1;
+	var slhtml = '';
+	db.collection('infoboard').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			html += '<br><a href="infoview?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
+			console.log(html);
+		})
+		
+	}).then(() => {
+		for(var i = 0; i< html.length; i++){
+			if(html[i] == 'b' && html[i+1] == 'r'){
+				cnt++;
+				if(cnt ==11){
+					position = i;
+					break;
+				}
+			}
+		}
+		console.log(position);
+		slhtml = html.slice(0,position - 1);
+		console.log(slhtml);
+		$("#info").append(slhtml);
+    });
+
+	
+
+	
+	var freehtml = '';
+	var slfreehtml = '';
+	var frcnt = 0;
+	var frpo = -1;
+	db.collection('board').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			freehtml += '<br><a href="view?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
+
+		})
+	;
+	}).then(() => {
+		for(var i = 0; i< freehtml.length; i++){
+			if(html[i] == 'b' && html[i+1] == 'r'){
+				cnt++;
+				if(cnt ==11){
+					frpo = i;
+					break;
+				}
+			}
+		}
+		console.log(frpo);
+		slfreehtml = freehtml.slice(0,position - 1);
+		console.log(slfreehtml);
+		$("#free").append(slfreehtml);
+    });
 	</script>
 </head>
 <body>
@@ -107,15 +165,15 @@
 	        </div>
 	      </div>
 	      <div class="card">
-	        <div class="card-block">
+	        <div class="card-block" id='free'>
 	          <h2 class="card-title">자유게시판</h2>
-	          <p class="card-text">- 게시글 1 <br> - 게시글 2 <br> - 게시글 3 <br> - 게시글 4 <br> - 게시글 5 </p>
+	          
 	        </div>
 	      </div>
 	      <div class="card">
-	        <div class="card-block">
+	        <div class="card-block" id='info'>
 	          <h2 class="card-title">정보게시판</h2>
-	          <p class="card-text">- 게시글 1 <br> - 게시글 2 <br> - 게시글 3 <br> - 게시글 4 <br> - 게시글 5 </p>
+	          
 	        </div>
 	      </div>
 	    </div>

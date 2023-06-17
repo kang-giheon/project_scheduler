@@ -39,9 +39,9 @@
 							color:white; border-radius:5px; padding:10px;">삭제하기</button>
 		<button id="goupdate"class="pull-right" style="align-items:center;  margin-right:5px;background-color:black;
   								color:white; border-radius:5px; padding:10px;">수정하기</button>
-		<button onclick="location.href='free'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
+		<button onclick="location.href='info'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
 							color:white; border-radius:5px; padding:10px;">목록보기</button>
-		<button onclick="location.href='write'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
+		<button onclick="location.href='infowrite'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
 							color:white; border-radius:5px; padding:10px;">신규등록</button>
 	</div>
 
@@ -79,7 +79,7 @@ var date = params.date;
 var title = params.title;
 var content = params.content;
 var useremail;
-	db.collection('board').get().then((test)=>{
+	db.collection('infoboard').get().then((test)=>{
 		test.forEach((doc)=>{
 			console.log(doc.data());
 			if(doc.data().content == content){
@@ -87,7 +87,7 @@ var useremail;
 				var newcnt = doc.data().viewcnt + 1;
 				var findId = doc.id;
 				useremail = doc.data().uid;
-				db.collection('board').doc(findId).update({
+				db.collection('infoboard').doc(findId).update({
   viewcnt: newcnt
 })
 .then(() => {
@@ -124,7 +124,7 @@ document.getElementById('content1').innerHTML = contenthtml;
 $(document).on('click','#delete',function(){
 	alert("삭제하시겠습니까?");
 	//삭제하고 alert창뜨고 확인누르면 다른창으로 가지긴하는데 가면 삭제가안됨;;;
-	db.collection('board').get().then((test)=>{
+	db.collection('infoboard').get().then((test)=>{
 		test.forEach((doc)=>{
 			
 			if(doc.data().title == title && doc.data().content == content){
@@ -135,9 +135,9 @@ $(document).on('click','#delete',function(){
 				console.log(useremail);//작성자 email
   				if (user.email == useremail) {
 				
-					db.collection('board').doc(findId).delete().then(() => {
+					db.collection('infoboard').doc(findId).delete().then(() => {
 						alert("삭제되었습니다");
-						window.location.href = 'free';
+						window.location.href = 'info';
 					});			
   				}else{
 					alert("작성자만 삭제가능합니다.");
@@ -160,14 +160,14 @@ $(document).on('click','#goupdate',function(){
 			console.log(useremail);//작성자 email
   			if (user.email == useremail) {
 				
-				window.location.href="/controller/update?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;			
+				window.location.href="/controller/infoupdate?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;			
   			}else{
 				alert("작성자만 수정가능합니다.");
 			}
 	});
 
 
-	//window.location.href = "update?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
+	//window.location.href = "infoupdate?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
 });
 </script>
 
@@ -179,7 +179,7 @@ $(document).on('click','#goupdate',function(){
 	   var date = date1.innerHTML;
 	   var title = title2.innerHTML;
 	   var content = content1.innerHTML
-	   window.location.href = "update?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
+	   window.location.href = "infoupdate?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
    }
   </script>
 	

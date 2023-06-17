@@ -44,7 +44,7 @@
 			
 			<button id="updatedata" class="pull-right" style="align-items:center; background-color:black;
   								color:white; border-radius:5px; padding:10px;">수정하기</button>
-			<button onclick="location.href = 'free'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
+			<button onclick="location.href = 'info'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
   								color:white; border-radius:5px; padding:10px;">목록으로</button>
 		</div>
 	</div>
@@ -116,14 +116,14 @@
 	
 	$(document).on('click','#updatedata',function(){
 
-		db.collection('board').get().then((test)=>{
+		db.collection('infoboard').get().then((test)=>{
 			test.forEach((doc)=>{
 				console.log(doc.data());
 				if(doc.data().title == title && doc.data().content == content){
 					console.log("find");
 					var findId = doc.id;
 
-					db.collection('board').doc(findId).update({
+					db.collection('infoboard').doc(findId).update({
  						title: title1.value, content: content1.value
 					}).then(() => {
 						gofree();
@@ -136,7 +136,7 @@
 	});
 	function gofree(){
 		alert("수정되었습니다");
-		window.location.href = 'free';
+		window.location.href = 'info';
 		 
 	}
 	</script>

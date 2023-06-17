@@ -12,42 +12,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
      	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./resources/css/main.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel = "stylesheet">
-<link rel="stylesheet" href = "https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.boostrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.js"></script>
     
 </head>
 <body>
-	<c:import url="/WEB-INF/views/menu.jsp"></c:import>
-	<div class="container">
-		<h2 class="text-center">자유게시판</h2>
-		<table class="table table-boardered table table-hover" id='table1'>
+	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
+	<div class="container" style="margin:50px; margin-left:300px;">
+		<h2 id="loginBoxTitle" style="width:100%; text-align:center;">자유게시판</h2>
+		<table class="table table-striped table-bordered table-hover" id='table1'>
 			<thead>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>조회수</th>
-				<th>등록일</th>
+				<th class="table-header" style="background-color:#A9A9A9">제목</th>
+				<th class="table-header" style="background-color:#A9A9A9">작성자</th>
+				<th class="table-header" style="background-color:#A9A9A9">조회수</th>
+				<th class="table-header" style="background-color:#A9A9A9">등록일</th>
 			</thead>
 			<tbody id="table">
-				<tr>
-					<td>
-						<!--  <a href="view.do?bno=${board.bno}">${board.title}</a> -->
-					</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</tbody>
-			<tbody>
-				<tr>
-					<td colspan="5" class="text-center">
-						
-						<input type="button" id="gowrite" value = "신규등록" >
-					</td>
-				</tr>
-				
 			</tbody>
 		</table>
+		<input type="button" id="gowrite" value = "신규등록" class="pull-right" style="align-items:center; margin-top:10px; background-color:black;
+  								color:white; border-radius:5px; padding:10px;">
 	</div>
 	
 	<script src="./resources/js/firebaseDB.js"></script>
@@ -58,54 +40,46 @@
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
 	<script src="./resources/js/jquery.js"></script>
 	
-	<script type="module">
-	//파이어베이스 연동
-	import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
-	
-	var app = firebase.initializeApp(firebaseConfig);
-    var firebaseEmailAuth = app.auth();
-    var firebaseDatabase = app.database();
-    const db = getFirestore(app);
-	
-	//
-
-	var table = document.getElementById("table");
-	var tableRow = table.rows.length; 
-	var html = '';
-	
-	db.collection('board').get().then((test)=>{
-		test.forEach((doc)=>{
-			console.log(doc.data());
-			html += '<tr>';
-			html += '<td><a href="view?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</td>';
-			html += '<td>' + doc.data().username+'</td>';
-			html += '<td>' + doc.data().viewcnt+'</td>';
-			html += '<td>' + doc.data().date+'</td>';
-			html += '</tr>';
-			
-
-			
-		})
-	$("#table").append(html);
-	})
-
-	$(document).on('click','#gowrite',function(){
-		firebase.auth().onAuthStateChanged(function(user) {
-  			if (user) {
+	<script>
+		var app = firebase.initializeApp(firebaseConfig);
+	    var firebaseEmailAuth = app.auth();
+	    var firebaseDatabase = app.database();
+		const db = firebase.firestore();
+		
+		var table = document.getElementById("table");
+		var tableRow = table.rows.length; 
+		var html = '';
+		
+		db.collection('board').get().then((test)=>{
+			test.forEach((doc)=>{
+				console.log(doc.data());
+				html += '<tr>';
+				html += '<td><a href="view?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</td>';
+				html += '<td>' + doc.data().username+'</td>';
+				html += '<td>' + doc.data().viewcnt+'</td>';
+				html += '<td>' + doc.data().date+'</td>';
+				html += '</tr>';
 				
-				window.location.href="/controller/write"			
-  			}else{
-				alert("로그인이후 신규등록이 가능합니다.");
-			}
+	
+				
+			})
+		$("#table").append(html);
+		})
+	
+		$(document).on('click','#gowrite',function(){
+			firebase.auth().onAuthStateChanged(function(user) {
+	  			if (user) {
+					
+					window.location.href="/controller/write"			
+	  			}else{
+					alert("로그인이후 신규등록이 가능합니다.");
+				}
+			});
+			
+			
 		});
-		
-		
-	});
 
 	</script>
-	
-	
-	
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>
 	<script src="./resources/js/bootstrap.min.js"></script>
