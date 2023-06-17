@@ -58,6 +58,7 @@ async function addDocument(userUID, scheduleData) {
 
 		    console.log("문서 추가 완료");
 		    opener.location.href="./lookup";
+		    opener.parent.location.reload();
 		    window.close();
   		} catch (error) {
     		console.error("문서 추가 중 오류 발생:", error);
@@ -90,6 +91,7 @@ function deleteSchedule(i,uid){
 		    await documentRef.delete();
 		    console.log("문서가 성공적으로 삭제되었습니다.");
 		    opener.location.href="./lookup";
+		    opener.parent.location.reload();
 		    window.close();
 		  } catch (error) {
 		    console.error("문서 삭제 중 오류 발생:", error);
