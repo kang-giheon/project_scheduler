@@ -50,13 +50,13 @@
     					documents[i++] = documentData;
     				}
 		    	});
-				console.log(documents);
+
 				for(let i in documents){
 					var doc=documents[i];
 					let form = document.getElementById('form');
 					let scdlist = document.createElement('p');
 					let br = document.createElement('br');
-					//scdlist.setAttribute('type','checkbox');
+					scdlist.setAttribute('type','checkbox');
 					const memo = doc["memo"];
 					const sub = doc["subject"];
 					scdlist.innerHTML=memo;
@@ -74,10 +74,8 @@
 		var id = '${email}';
 		var date = new Date();
 		var today =  date.toISOString().substring(0,10);
-		var tomorrow = new Date(date.setDate(date.getDate()+1)).toISOString().substring(0,10);;
-		console.log(id);
-		console.log(tomorrow);
-		fetchDocumentsBetweenDates(id,today,tomorrow)
+		var tomorrow = new Date(date.setDate(date.getDate()+1)).toISOString().substring(0,10);
+		fetchDocumentsBetweenDates(id,today,tomorrow);
 	});
 	}
 	

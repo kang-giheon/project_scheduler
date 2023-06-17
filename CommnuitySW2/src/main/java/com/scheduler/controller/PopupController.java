@@ -37,6 +37,7 @@ public class PopupController {
 		    	  dto.setStartDate(memberInfo.get("startDate").toString());
 		    	  dto.setEndDate(memberInfo.get("endDate").toString());
 		    	  dto.setMemo(memberInfo.get("memo").toString());
+		    	  
 		    	  list.add(dto);
 		      }
 		  }catch (Exception e) {
@@ -53,7 +54,6 @@ public class PopupController {
 	
 	@PostMapping("/update")
 	public String updateSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
-		
 		model.addAttribute("obj",sc);
 		model.addAttribute("email",(String)session.getAttribute("email"));
 		return "updateSchedule";

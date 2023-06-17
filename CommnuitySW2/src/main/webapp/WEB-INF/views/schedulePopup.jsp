@@ -79,6 +79,8 @@ function click_ok(userID){
 
 function update(i){
 	var upfrm = document.forms[i];
+	console.log(upfrm.memo.value);
+	console.log(typeof(upfrm.memo.value));
 	upfrm.action="./schedulePopup/update";
 	upfrm.submit();
 }
@@ -132,8 +134,8 @@ function deleteSchedule(i,uid){
 				ScheduleDTOImpl dto = (ScheduleDTOImpl)list.get(i);%>
 				<tr>
 					<form name="<%=i %>" method="post">
-					<input type=hidden name="subject" value=<%=dto.getSubject()%>><td><%=dto.getSubject() %></td>
-					<input type=hidden name="memo" value=<%=dto.getMemo()%>><td><%=dto.getMemo()%></td>
+					<input type=hidden name="subject" value='<%=dto.getSubject()%>'><td><%=dto.getSubject() %></td>
+					<input type=hidden name="memo" value='<%=dto.getMemo()%>'><td><%=dto.getMemo()%></td>
 					<input type=hidden name="startDate" value=<%=dto.getStartDate()%>>
 					<input type=hidden name="endDate" value=<%=dto.getEndDate()%>>
 					</form>
