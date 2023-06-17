@@ -61,14 +61,9 @@ function check(userID){
 	const newEnd=document.getElementsByName('endDate')[0].value;
 	const newMem=document.getElementsByName('memo')[0].value;
 	const newData = {subject : newSub, startDate : newStr, endDate : newEnd, memo : newMem };
+	console.log(newData);
 	fetchDocumentId(userID,sbj,strDate,edDate,mem,newData);
 }
-
-// 문서 ID 조회 함수 호출 (userUID는 실제 값으로 대체해야 함)
-//const userUID = "userUID"; // 실제 사용자 UID로 대체
-
-//fetchDocumentId(userUID);
-
 </script>
 </head>
 <body>

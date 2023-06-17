@@ -1,0 +1,42 @@
+.container {
+  height: 220px;
+  margin: 20px auto;
+}
+
+.tab_title li {
+  list-style: none;
+  float: left;
+  width: 90px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.tab_title li.on{
+  font-weight : bold;
+}
+
+.tab_cont {
+  clear: both;
+  width: 100%;
+}
+
+.tab_cont div {
+  display: none;
+  text-align: center;
+}
+
+.tab_cont div.on {
+  display: block;
+}
+.div-lf{
+	float:left;
+	display:block;
+	width:100%;
+	padding:5px;
+}
+.div-rg{
+	float:left;
+	display:block;
+	width:100%;
+	padding:5px;
+}

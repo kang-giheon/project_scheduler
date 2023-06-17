@@ -105,7 +105,10 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
       				{
       					title : "<%=dto.getSubject()%>",
       					start : "<%=dto.getStartDate()%>",
-      					end : "<%=dto.getEndDate()%>"
+      					end : "<%=dto.getEndDate()%>",
+      					<%if(dto.getColor()!=null){%>
+      					color : "<%=dto.getColor()%>"
+      					<%}%>
       				},
       				<%
       				}

@@ -42,6 +42,11 @@ public class scheduleController {
 		    	  dto.setStartDate(memberInfo.get("startDate").toString());
 		    	  dto.setEndDate(memberInfo.get("endDate").toString());
 		    	  dto.setMemo(memberInfo.get("memo").toString());
+		    	  if(memberInfo.get("color")!=null) {
+		    		  
+		    		  System.out.println(memberInfo.get("memo").toString()+"수정");
+		    		  dto.setColor(memberInfo.get("color").toString());
+		    	  }
 		    	  list.add(dto);
 		      }  
 		  } catch (Exception e) {
