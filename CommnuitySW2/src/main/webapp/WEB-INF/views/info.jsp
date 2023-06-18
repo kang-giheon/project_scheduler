@@ -17,7 +17,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
 	<div class="container" style="margin:50px; margin-left:300px;">
-		<h2 id="loginBoxTitle" style="width:100%; text-align:center;">자유게시판</h2>
+		<h2 id="loginBoxTitle" style="width:100%; text-align:center;">정보게시판</h2>
 		<table class="table table-striped table-bordered table-hover" id='table1'>
 			<thead>
 				<th class="table-header" style="background-color:#A9A9A9">제목</th>

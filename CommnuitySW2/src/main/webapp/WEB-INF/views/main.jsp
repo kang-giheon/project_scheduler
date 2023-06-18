@@ -137,6 +137,35 @@
 		console.log(slfreehtml);
 		$("#free").append(slfreehtml);
     });
+	
+	
+	var noticehtml = '';
+	var slnoticehtml = '';
+	var nocnt = 0;
+	var nopo = -1;
+	db.collection('noticeboard').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			noticehtml += '<br><a href="noticeview?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
+
+		})
+	;
+	}).then(() => {
+		for(var i = 0; i< noticehtml.length; i++){
+			if(noticehtml[i] == 'b' && noticehtml[i+1] == 'r'){
+				nocnt++;
+				if(nocnt ==11){
+					nopo = i;
+					break;
+				}
+			}
+		}
+		console.log(nopo);
+		slnoticehtml = noticehtml.slice(0,position - 1);
+		console.log(slnoticehtml);
+		$("#notice").append(slnoticehtml);
+    });
+	
 	</script>
 </head>
 <body>
@@ -159,9 +188,9 @@
 	    </div>
 	    <div class="div-fl">
 	      <div class="card">
-	        <div class="card-block">
+	        <div class="card-block" id='notice'>
 	          <h2 class="card-title">공지사항</h2>
-	          <p class="card-text">- 공지사항 1 <br> - 공지사항 2 <br> - 공지사항 3</p>
+	          
 	        </div>
 	      </div>
 	      <div class="card">
