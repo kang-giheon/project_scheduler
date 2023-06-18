@@ -17,14 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.scheduler.dto.ScheduleDTOImpl;
-import com.scheduler.service.ScheduleService;
 import net.sf.json.JSONArray; 
 
 @Controller
 public class scheduleController {
-	
-	@Resource
-	private ScheduleService service;
+
 	
 	@GetMapping("/lookup")
 	public String lookup(HttpSession session, Model model) {
@@ -45,6 +42,11 @@ public class scheduleController {
 		    	  dto.setStartDate(memberInfo.get("startDate").toString());
 		    	  dto.setEndDate(memberInfo.get("endDate").toString());
 		    	  dto.setMemo(memberInfo.get("memo").toString());
+		    	  if(memberInfo.get("color")!=null) {
+		    		  
+		    		  System.out.println(memberInfo.get("memo").toString()+"수정");
+		    		  dto.setColor(memberInfo.get("color").toString());
+		    	  }
 		    	  list.add(dto);
 		      }  
 		  } catch (Exception e) {

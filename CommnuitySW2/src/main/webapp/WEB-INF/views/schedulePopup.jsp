@@ -58,6 +58,7 @@ async function addDocument(userUID, scheduleData) {
 
 		    console.log("문서 추가 완료");
 		    opener.location.href="./lookup";
+		    opener.parent.location.reload();
 		    window.close();
   		} catch (error) {
     		console.error("문서 추가 중 오류 발생:", error);
@@ -78,6 +79,8 @@ function click_ok(userID){
 
 function update(i){
 	var upfrm = document.forms[i];
+	console.log(upfrm.memo.value);
+	console.log(typeof(upfrm.memo.value));
 	upfrm.action="./schedulePopup/update";
 	upfrm.submit();
 }
@@ -90,6 +93,7 @@ function deleteSchedule(i,uid){
 		    await documentRef.delete();
 		    console.log("문서가 성공적으로 삭제되었습니다.");
 		    opener.location.href="./lookup";
+		    opener.parent.location.reload();
 		    window.close();
 		  } catch (error) {
 		    console.error("문서 삭제 중 오류 발생:", error);
@@ -130,8 +134,8 @@ function deleteSchedule(i,uid){
 				ScheduleDTOImpl dto = (ScheduleDTOImpl)list.get(i);%>
 				<tr>
 					<form name="<%=i %>" method="post">
-					<input type=hidden name="subject" value=<%=dto.getSubject()%>><td><%=dto.getSubject() %></td>
-					<input type=hidden name="memo" value=<%=dto.getMemo()%>><td><%=dto.getMemo()%></td>
+					<input type=hidden name="subject" value='<%=dto.getSubject()%>'><td><%=dto.getSubject() %></td>
+					<input type=hidden name="memo" value='<%=dto.getMemo()%>'><td><%=dto.getMemo()%></td>
 					<input type=hidden name="startDate" value=<%=dto.getStartDate()%>>
 					<input type=hidden name="endDate" value=<%=dto.getEndDate()%>>
 					</form>

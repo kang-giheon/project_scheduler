@@ -6,6 +6,7 @@ public class ScheduleDTOImpl implements ScheduleDTO {
 	private String startDate;
 	private String endDate;
 	private String memo;
+	private String color;
 	public String getSubject() {
 		return subject;
 	}
@@ -58,6 +59,16 @@ public class ScheduleDTOImpl implements ScheduleDTO {
 		this.memo=memo;
 		
 	}
-	
+	@Override
+	public String getColor() {
+		// TODO Auto-generated method stub
+		return this.color;
+	}
+
+	@Override
+	public void setColor(String color) {
+		this.color = color;
+		
+	}
 	
 }
