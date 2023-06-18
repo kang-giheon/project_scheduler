@@ -41,7 +41,7 @@
   								color:white; border-radius:5px; padding:10px;">수정하기</button>
 		<button onclick="location.href='info'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
 							color:white; border-radius:5px; padding:10px;">목록보기</button>
-		<button onclick="location.href='infowrite'" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
+		<button id = "new" class="pull-right" style="align-items:center; margin-right:5px; background-color:black;
 							color:white; border-radius:5px; padding:10px;">신규등록</button>
 	</div>
 
@@ -121,8 +121,26 @@ var contenthtml = '';
 contenthtml += '<td>' + content+'</td>';
 document.getElementById('content1').innerHTML = contenthtml;
 
+var manager = "";
+var memail = "";
+
+firebase.auth().onAuthStateChanged(function(user) {
+	if(user){
+		memail = user.email;
+	}
+	db.collection('users').get().then((test)=>{
+		test.forEach((doc)=>{
+			if(memail == doc.data().email){
+				manager = doc.data().manager;
+				console.log(manager);
+			}	
+		})
+	})
+
+});	
 $(document).on('click','#delete',function(){
 	alert("삭제하시겠습니까?");
+
 	//삭제하고 alert창뜨고 확인누르면 다른창으로 가지긴하는데 가면 삭제가안됨;;;
 	db.collection('infoboard').get().then((test)=>{
 		test.forEach((doc)=>{
@@ -131,17 +149,24 @@ $(document).on('click','#delete',function(){
 				console.log("find");
 				var findId = doc.id;
 			firebase.auth().onAuthStateChanged(function(user) {
-				console.log(user.email);//지금 로그인 사용자 email
-				console.log(useremail);//작성자 email
-  				if (user.email == useremail) {
+				if(user){
+					memail = user.email;
+					console.log(useremail);//작성자 email
+					
+
+  					if (user.email == useremail || manager == "1") {
 				
-					db.collection('infoboard').doc(findId).delete().then(() => {
-						alert("삭제되었습니다");
-						window.location.href = 'info';
-					});			
-  				}else{
-					alert("작성자만 삭제가능합니다.");
+						db.collection('infoboard').doc(findId).delete().then(() => {
+							alert("삭제되었습니다");
+							window.location.href = 'info';
+						});
+					}else{
+						alert("작성자만 삭제가능합니다.");
+					}
+				}else{
+					alert("로그인 이용자만 사용할 수 있습니다");
 				}
+				
 			});	
 			}
 		})
@@ -156,18 +181,33 @@ $(document).on('click','#goupdate',function(){
 	var content = content1.innerHTML
 	
 	firebase.auth().onAuthStateChanged(function(user) {
-			console.log(user.email);//지금 로그인 사용자 email
-			console.log(useremail);//작성자 email
-  			if (user.email == useremail) {
+			if(user){
+				console.log(user.email);//지금 로그인 사용자 email
+				console.log(useremail);//작성자 email
+  				if (user.email == useremail || manager == "1") {
 				
-				window.location.href="/controller/infoupdate?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;			
-  			}else{
-				alert("작성자만 수정가능합니다.");
+					window.location.href="/controller/infoupdate?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
+						
+  				}else{
+					alert("작성자만 수정가능합니다.");
+				}
+			}else{
+				alert("로그인 이용자만 사용할수 있습니다");
 			}
 	});
 
 
 	//window.location.href = "infoupdate?username=" + username+ "&viewcnt="+viewcnt+"&date="+date+"&title="+title+"&content="+content;
+});
+
+$(document).on('click','#new',function(){
+	firebase.auth().onAuthStateChanged(function(user) {
+		if(user){
+			window.location.href="infowrite";
+		}else{
+			alert("로그인 이용자만 신규등록할 수 있습니다.");
+		}
+	});
 });
 </script>
 
