@@ -57,7 +57,13 @@
 				<li><a href="/controller/info">정보게시판</a></li>
 			</ul>
 		</li>
+		<li>
+			<button id='go'>관리자 페이지</button>
+		</li>
 	</ul>
+	
+	
+	
 	<div class="sidebar-footer">
 		<p class="social-icons">
 			<a target="_blank" href="#"><i class="fa fa-youtube"></i></a>
@@ -98,7 +104,36 @@
        		})
 	      });
 	    });
-     
+   	var manager = "";
+	var memail = "";
+
+	$(document).on('click','#go',function(){
+		
+		firebase.auth().onAuthStateChanged(function(user) {
+  			if (user) {
+  				memail = user.email;
+				
+				db.collection('users').get().then((test)=>{
+					test.forEach((doc)=>{
+						if(memail == doc.data().email){
+							manager = doc.data().manager;
+							console.log(manager);
+							if(manager == '1'){
+				  				window.location.href="/controller/manager"
+				  			}else{
+				  				alert("관리자만 접근 가능합니다");
+				  			}
+						}	
+					})
+				})
+  			}else{
+  				alert("로그인 하세요.")	
+  			}
+  			
+		});
+		
+		
+	});
 	</script>
 	
 	<script src="./resources/js/jquery.js"></script>

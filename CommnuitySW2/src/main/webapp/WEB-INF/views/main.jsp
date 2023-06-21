@@ -163,7 +163,8 @@
 		console.log(slnoticehtml);
 		$("#notice").append(slnoticehtml);
     });
-	
+
+
 	</script>
 </head>
 <body>
@@ -180,6 +181,7 @@
 	        <blockquote class="card-block card-blockquote">
 	        	<h2 class="card-title">Scheduler</h2>
 	          	<p><form id="form" method="get" action="CheckboxServlet">
+	          	
 				</form></p>
 	        </blockquote>
 	      </div>
