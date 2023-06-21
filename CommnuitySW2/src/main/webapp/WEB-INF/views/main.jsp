@@ -24,11 +24,13 @@
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
 	<script>
-	var firebaseDatabase;
+	
+	//---------------------------------
+	//var firebaseDatabase;
 
 	var app = firebase.initializeApp(firebaseConfig);
-
 	const db = app.firestore();
+	
 	async function fetchDocumentsBetweenDates(userUID,start,end) {
 		  try {
 				const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
@@ -105,9 +107,6 @@
 		console.log(slhtml);
 		$("#info").append(slhtml);
     });
-
-	
-
 	
 	var freehtml = '';
 	var slfreehtml = '';
@@ -117,7 +116,7 @@
 		test.forEach((doc)=>{
 			console.log(doc.data());
 			freehtml += '<br><a href="view?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
-
+			
 		})
 	;
 	}).then(() => {
@@ -145,7 +144,7 @@
 	<div id="content">
 	    <div class="div-fl">
 	      <div class="card">
-	      	<iframe src="http://localhost:8080/controller/lookup" width=100% height=650px></iframe>
+	      	<iframe src="http://localhost:18080/controller/lookup" width=100% height=650px></iframe>
 	      </div>
 	      <div class="card p-3">
 	        <blockquote class="card-block card-blockquote">

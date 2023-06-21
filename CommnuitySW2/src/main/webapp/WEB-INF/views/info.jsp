@@ -17,7 +17,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
 	<div class="container" style="margin:50px; margin-left:300px;">
-		<h2 id="loginBoxTitle" style="width:100%; text-align:center;">자유게시판</h2>
+		<h2 id="loginBoxTitle" style="width:100%; text-align:center;">정보게시판</h2>
 		<table class="table table-striped table-bordered table-hover" id='table1'>
 			<thead>
 				<th class="table-header" style="background-color:#A9A9A9">제목</th>
@@ -43,41 +43,45 @@
 	<script>
 		var app = firebase.initializeApp(firebaseConfig);
 	    var firebaseEmailAuth = app.auth();
+	 // Model
 	    var firebaseDatabase = app.database();
-		const db = firebase.firestore();
-		
-		var table = document.getElementById("table");
-		var tableRow = table.rows.length; 
-		var html = '';
-		
-		db.collection('infoboard').get().then((test)=>{
-			test.forEach((doc)=>{
-				console.log(doc.data());
-				html += '<tr>';
-				html += '<td><a href="infoview?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</td>';
-				html += '<td>' + doc.data().username+'</td>';
-				html += '<td>' + doc.data().viewcnt+'</td>';
-				html += '<td>' + doc.data().date+'</td>';
-				html += '</tr>';
-				
-	
-				
-			})
-		$("#table").append(html);
-		})
-	
-		$(document).on('click','#gowrite',function(){
-			firebase.auth().onAuthStateChanged(function(user) {
-	  			if (user) {
-					
-					window.location.href="/controller/infowrite"			
-	  			}else{
-					alert("로그인이후 신규등록이 가능합니다.");
-				}
-			});
-			
-			
-		});
+	    const db = firebase.firestore();
+
+	    // View
+	    function generateTableRow(data) {
+	      var row = '<tr>';
+	      row += '<td><a href="infoview?content=' + data.content + '&date=' + data.date + '&username=' + data.username + '&viewcnt=' + data.viewcnt + '&title=' + data.title + '">' + data.title + '</td>';
+	      row += '<td>' + data.username + '</td>';
+	      row += '<td>' + data.viewcnt + '</td>';
+	      row += '<td>' + data.date + '</td>';
+	      row += '</tr>';
+	      return row;
+	    }
+
+	    function renderTable(data) {
+	      var html = '';
+	      data.forEach(function (doc) {
+	        html += generateTableRow(doc.data());
+	      });
+	      $("#table").append(html);
+	    }
+
+	    // Controller
+	    $(document).ready(function () {
+	      db.collection('infoboard').get().then(function (test) {
+	        renderTable(test);
+	      });
+	    });
+
+	    $(document).on('click', '#gowrite', function () {
+	      firebase.auth().onAuthStateChanged(function (user) {
+	        if (user) {
+	          window.location.href = "/controller/infowrite";
+	        } else {
+	          alert("로그인이후 신규등록이 가능합니다.");
+	        }
+	      });
+	    });
 
 	</script>
 	<script src="./resources/js/jquery.js"></script>
