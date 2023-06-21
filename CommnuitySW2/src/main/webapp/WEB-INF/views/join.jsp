@@ -172,7 +172,7 @@ $(document).ready(function () {
         firebaseEmailAuth.createUserWithEmailAndPassword(email, password)
           .then(function (user) {
             userInfo = user; // 가입 후 callBack 함수로 생성된 유저의 정보가 user에 담겨서 넘어온다. 전역변수에 할당.
-            const data = { name: name, email: email, password: password, tel: tel };
+            const data = { name: name, email: email, password: password, tel: tel};
             registrationObservable.notifyObservers(data);
           })
           .catch(function (error) {

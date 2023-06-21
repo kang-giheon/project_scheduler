@@ -58,7 +58,7 @@
 			</ul>
 		</li>
 		<li>
-			<button id='go'>관리자 페이지</button>
+			<li id="ma" style="display:none;"><a href="/controller/manager" id='go'>관리자 페이지</a>	</li>
 		</li>
 	</ul>
 	
@@ -78,7 +78,10 @@
 		var app = firebase.initializeApp(firebaseConfig);
  	    firebaseEmailAuth = app.auth();
 	    firebaseDatabase = app.database();
- 	    
+
+	    var manager = "";
+		var memail = "";
+		
 		userSessionCheck();
 
        function userSessionCheck(){
@@ -86,6 +89,23 @@
     		   if(user){
     				   document.getElementById('logged-in').textContent="로그아웃";
     				   document.getElementById('logged-in').href="/controller";
+    				   
+    				   memail = user.email;
+    				   console.log(memail);
+    				   
+    				   db.collection('users').get().then((test)=>{
+    						test.forEach((doc)=>{
+		    				   if(memail == doc.data().email){
+									manager = doc.data().manager;
+									console.log(manager);
+									if(manager == '1'){
+										document.getElementById("ma").style.display ='block';
+						  			} else {
+						  				document.getElementById("ma").style.display ='none';
+						  			}
+								}	
+    		   				})
+    				   })
     		   }
     		   else {
     				document.getElementById('mypage').href="/controller/login";
@@ -104,9 +124,8 @@
        		})
 	      });
 	    });
-   	var manager = "";
-	var memail = "";
 
+	
 	$(document).on('click','#go',function(){
 		
 		firebase.auth().onAuthStateChanged(function(user) {
@@ -118,11 +137,11 @@
 						if(memail == doc.data().email){
 							manager = doc.data().manager;
 							console.log(manager);
-							if(manager == '1'){
-				  				window.location.href="/controller/manager"
-				  			}else{
-				  				alert("관리자만 접근 가능합니다");
-				  			}
+							//if(manager == '1'){
+							//	document.getElementById("ma").style.display ='block';
+				  			//}else{
+				  			//	alert("관리자만 접근 가능합니다");
+				  			//}
 						}	
 					})
 				})

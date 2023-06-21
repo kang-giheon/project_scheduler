@@ -5,12 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="./resources/css/main.css">
 </head>
 <body>
-	<div id="check">
-		
+	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
+	<div class="container" style="margin: 50px; margin-left: 300px;">
+		<div id="check">
+			
+		</div>
+		<button id="go" style="align-items: center; margin-top: 10px; background-color: black; color: white; border-radius: 5px; padding: 10px;">변경</button>
 	</div>
-	<button id="go">변경</button>
 	<script src="./resources/js/firebaseDB.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
