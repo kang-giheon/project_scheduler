@@ -162,7 +162,8 @@
 		console.log(slnoticehtml);
 		$("#notice").append(slnoticehtml);
     });
-	
+
+
 	</script>
 </head>
 <body>
@@ -173,12 +174,13 @@
 	<div id="content">
 	    <div class="div-fl">
 	      <div class="card">
-	      	<iframe src="http://localhost:18080/controller/lookup" width=100% height=650px></iframe>
+	      	<iframe src="http://localhost:8080/controller/lookup" width=100% height=650px></iframe>
 	      </div>
 	      <div class="card p-3">
 	        <blockquote class="card-block card-blockquote">
 	        	<h2 class="card-title">Scheduler</h2>
 	          	<p><form id="form" method="get" action="CheckboxServlet">
+	          	
 				</form></p>
 	        </blockquote>
 	      </div>
