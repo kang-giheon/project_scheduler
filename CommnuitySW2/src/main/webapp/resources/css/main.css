@@ -103,7 +103,14 @@ input[type="button"] {
 .div-fl{
 	float:left;
 	display:block;
-	width:50%;
+	width:60%;
+	padding:5px;
+}
+
+.div-fr{
+	float:left;
+	display:block;
+	width:40%;
 	padding:5px;
 }
 

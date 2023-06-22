@@ -25,8 +25,21 @@ var firebaseDatabase;
 
 var app = firebase.initializeApp(firebaseConfig);
 
+var firebaseEmailAuth = app.auth();
 const db = app.firestore();
+var memail="";
 
+userMailSession()
+function userMailSession(){
+	   firebaseEmailAuth.onAuthStateChanged(function(user){
+		   if(user){ 				    				
+				   memail = user.email;
+		   }
+		   else {
+			   memail = "";
+		   }
+		})
+	 }
 
 $.fn.serializeObject = function(){
 	var o={};
@@ -58,7 +71,6 @@ async function addDocument(userUID, scheduleData) {
 
 		    console.log("문서 추가 완료");
 		    opener.location.href="./lookup";
-		    opener.parent.location.reload();
 		    window.close();
   		} catch (error) {
     		console.error("문서 추가 중 오류 발생:", error);
@@ -66,15 +78,42 @@ async function addDocument(userUID, scheduleData) {
   	
 }
 
-function click_ok(userID){
+function click_ok(){
 	if(document.addpopup.subject.value=="" && document.addpopup.memo.value==""){
 		alert("제목과 내용을 입력해주세요.");
 	}
 	else{
 		var scheduleData = $('form#scheduleData').serializeObject();
 		// 문서 추가 함수 호출 (userUID는 실제 사용자 UID로 대체해야 함)
-		addDocument(userID, scheduleData);	
+		addDocument(memail, scheduleData);	
 	}
+}
+
+async function deleteDocument(userUID, documentID) {
+	  try {
+	    const documentRef = db.collection('schedules').doc(userUID).collection('schedule').doc(documentID);
+	    await documentRef.delete();
+	    console.log("문서가 성공적으로 삭제되었습니다.");
+	    opener.location.href="./lookup";
+	    window.close();
+	  } catch (error) {
+	    console.error("문서 삭제 중 오류 발생:", error);
+	  }
+	}
+async function fetchDocumentId(userUID, subject,startDate,endDate,memo) {
+	  try {
+	    const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
+	    const querySnapshot = await collectionRef.where("subject", "==", subject).where("startDate","==",startDate)
+	    						.where("endDate","==",endDate).where("memo","==",memo).get();
+
+	    querySnapshot.forEach((documentSnapshot) => {
+	      const documentID = documentSnapshot.id;
+	      deleteDocument(userUID,documentID);
+	    });
+	    
+	  } catch (error) {
+	    console.error("문서 ID 조회 중 오류 발생:", error);
+	  } 
 }
 
 function update(i){
@@ -85,40 +124,13 @@ function update(i){
 	upfrm.submit();
 }
 
-function deleteSchedule(i,uid){
+function deleteSchedule(i){
 	var upfrm = document.forms[i];
-	async function deleteDocument(userUID, documentID) {
-		  try {
-		    const documentRef = db.collection('schedules').doc(userUID).collection('schedule').doc(documentID);
-		    await documentRef.delete();
-		    console.log("문서가 성공적으로 삭제되었습니다.");
-		    opener.location.href="./lookup";
-		    opener.parent.location.reload();
-		    window.close();
-		  } catch (error) {
-		    console.error("문서 삭제 중 오류 발생:", error);
-		  }
-		}
-	async function fetchDocumentId(userUID, subject,startDate,endDate,memo) {
-		  try {
-		    const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
-		    const querySnapshot = await collectionRef.where("subject", "==", subject).where("startDate","==",startDate)
-		    						.where("endDate","==",endDate).where("memo","==",memo).get();
-
-		    querySnapshot.forEach((documentSnapshot) => {
-		      const documentID = documentSnapshot.id;
-		      deleteDocument(userUID,documentID);
-		    });
-		    
-		  } catch (error) {
-		    console.error("문서 ID 조회 중 오류 발생:", error);
-		  } 
-	}
 	var stDate = upfrm.startDate.value;
 	var edDate = upfrm.endDate.value;
 	var sub = upfrm.subject.value;
 	var memo = upfrm.memo.value;
-	fetchDocumentId(uid,sub,stDate,edDate,memo)
+	fetchDocumentId(memail,sub,stDate,edDate,memo)
 }
 </script>
 </head>
@@ -139,7 +151,7 @@ function deleteSchedule(i,uid){
 					<input type=hidden name="startDate" value=<%=dto.getStartDate()%>>
 					<input type=hidden name="endDate" value=<%=dto.getEndDate()%>>
 					</form>
-					<td><button onclick="update('<%=i%>')">수정</button><button onclick="deleteSchedule('<%=i%>','<%=request.getAttribute("email")%>')">삭제</button></td>
+					<td><button onclick="update('<%=i%>')">수정</button><button onclick="deleteSchedule('<%=i%>')">삭제</button></td>
 				</tr>
 			<%}%>
 		</table>
@@ -164,7 +176,7 @@ function deleteSchedule(i,uid){
 			<br>
 			</div>
 		</form>
-		<button onclick="click_ok('<%=request.getAttribute("email")%>');" >추가</button>
+		<button onclick="click_ok();" >추가</button>
 	</div>
 </div>
 </body>

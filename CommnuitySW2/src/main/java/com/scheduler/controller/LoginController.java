@@ -30,19 +30,10 @@ public class LoginController {
 		return "login";
 	}
 	
-	@PostMapping("/login")
-	public void emailcheck(HttpSession session,@RequestParam Map<String,Object> param){
-		session.setAttribute("email", (String)param.get("email"));
-	}
 	
     @GetMapping("/login/loginfailed")  
     public String loginerror(Model model) {  
         model.addAttribute("error", "true");  
         return "login"; 
-    } 
-    
-    @GetMapping("/login/logout")
-    public void logout(HttpSession session,Model model) {
-    	session.invalidate();  
-    } 
+    }  
 }

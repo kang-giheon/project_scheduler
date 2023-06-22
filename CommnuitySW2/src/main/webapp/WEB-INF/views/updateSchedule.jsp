@@ -15,8 +15,22 @@
 // Initialize Firebase
 var app = firebase.initializeApp(firebaseConfig);
 
+var firebaseEmailAuth = app.auth();
 //Firestore DB 가져오기
 const db = app.firestore();
+
+var memail="";
+userMailSession()
+function userMailSession(){
+	   firebaseEmailAuth.onAuthStateChanged(function(user){
+		   if(user){ 				    				
+				   memail = user.email;
+		   }
+		   else {
+			   memail = "";
+		   }
+		})
+}
 
 async function updateDocument(userUID, documentID, newData) {
 	  try {
@@ -51,7 +65,7 @@ async function fetchDocumentId(userUID, subject,startDate,endDate,memo,newData) 
 	  } 
 }
 
-function check(userID){
+function check(){
 	const sbj='${obj.getSubject()}';
 	const strDate='${obj.getStartDate()}';
 	const edDate='${obj.getEndDate()}';
@@ -62,7 +76,7 @@ function check(userID){
 	const newMem=document.getElementsByName('memo')[0].value;
 	const newData = {subject : newSub, startDate : newStr, endDate : newEnd, memo : newMem };
 	console.log(newData);
-	fetchDocumentId(userID,sbj,strDate,edDate,mem,newData);
+	fetchDocumentId(memail,sbj,strDate,edDate,mem,newData);
 }
 </script>
 </head>
@@ -84,7 +98,7 @@ function check(userID){
 			<br>
 			</div>
 		</form>
-		<button onclick="check('<%=request.getAttribute("email")%>');" >추가</button>
+		<button onclick="check();" >추가</button>
 	</div>
 
 </body>

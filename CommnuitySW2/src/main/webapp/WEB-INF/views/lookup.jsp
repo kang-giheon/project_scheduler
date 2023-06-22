@@ -20,18 +20,34 @@
 	// Initialize Firebase
 	var app = firebase.initializeApp(firebaseConfig);
 
+	var firebaseEmailAuth = app.auth();
     const db = app.firestore();
 	let documents;
 	
-	function insertMemberInfo(getMemberInfo) {
+	function userSession(){
+ 	   firebaseEmailAuth.onAuthStateChanged(function(user){
+ 		   if(user){
+ 				   
+ 				   memail = user.email;
+ 				   fetchAllDocuments(memail,param1);  
+ 		   }
+ 		   else {
+ 			       memail="null";
+ 			     fetchAllDocuments(memail,param1);
+ 		   }
+ 		})
+ 	 }
+	
+	function insertMemberInfo(getMemberInfo,param1) {
 		 	var frmPop= document.frmPopup;
 		    frmPop.action = './schedule'; 
 		    frmPop.target = '_self'; 
-		    frmPop.arg1.value = JSON.stringify(getMemberInfo); 
+		    frmPop.arg1.value = JSON.stringify(getMemberInfo);
+		    frmPop.arg2.value = param1;
 		    frmPop.submit();    
 		}
 	
-	async function fetchAllDocuments(userUID) {
+	async function fetchAllDocuments(userUID,param1) {
   		try {
    		// 문서 쿼리 실행
    		const querySnapshot = await db.collection('schedules').doc(userUID).collection('schedule').get();
@@ -40,19 +56,21 @@
         documents = querySnapshot.docs.map((doc) => doc.data());
    		 // 문서 출력 또는 처리
    		console.log('문서 조회 완료');
-    	insertMemberInfo(documents);
+   		console.log(userUID);
+    	insertMemberInfo(documents,param1);
   		} catch (error) {
    		 console.error('문서 조회 중 오류 발생:', error);
   		}
 	}
 		// 문서 조회 함수 호출 (userUID는 실제 사용자 UID로 대체해야 함)
-		$(document).ready(function(){
-			fetchAllDocuments("<%=request.getAttribute("email")%>");
-		});
+			const urlParams = new URLSearchParams(window.location.search);
+			const param1 = urlParams.get('param1'); // value1
+			userSession(param1);
 	</script>
 <body>
 	<form name="frmPopup" method="post">
 	<input type="hidden" name="arg1">
+	<input type="hidden" name="arg2">
 	</form>
 </body>
 </html>

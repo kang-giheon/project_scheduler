@@ -45,10 +45,24 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	<script>
 	var app = firebase.initializeApp(firebaseConfig);
 	const db = firebase.firestore();
+	var firebaseEmailAuth = app.auth();
+	
+	var memail="";
+	userMailSession()
+	function userMailSession(){
+ 	   firebaseEmailAuth.onAuthStateChanged(function(user){
+ 		   if(user){ 				    				
+ 				   memail = user.email;
+ 		   }
+ 		   else {
+ 			   memail = "";
+ 		   }
+ 		})
+ 	 }
 	
 	async function addMultipleDocuments(documentDataArray) {
 		  try {
-		    const collectionRef = db.collection('schedules').doc('${email}').collection('schedule');
+		    const collectionRef = db.collection('schedules').doc(memail).collection('schedule');
 
 
 		    const batch = db.batch();
@@ -147,12 +161,12 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 		  }
 		}
 	
-	function findFriend(userID){
+	function findFriend(){
 		var friendID = document.getElementById("friendName").value;
 		if(friendID==""){
 			alert("이메일을 입력해주세요.");
 		}
-		else if(friendID!=userID){
+		else if(friendID!=memail){
 		db.collection('users').get().then((test) => {
 			var check=0;
 		      test.forEach((doc) => {
@@ -162,7 +176,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 		        }
 		      })
 		    if(check==1){
-		    	getAllFriend(userID,friendID);
+		    	getAllFriend(memail,friendID);
 		    }
 		    else{
 		    	alert("존재하지 않는 이메일입니다.");
@@ -204,7 +218,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
         			}
       		],
       		select: function(info) {
-      			if("<%=request.getAttribute("email")%>"!="null"){
+      			if(memail!=""){
       				fetchDocumentsBetweenDates('${friendEmail}',info.startStr,info.endStr);
       			}else{
       				alert("로그인해주세요.");
@@ -231,7 +245,7 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	      <div class="card">
 	        <div class="card-block">
 	          <h2 class="card-title">친구 추가</h3>
-	          	<input type="text" id="friendName" placeholder="이메일을 입력해주세요"><button onclick="findFriend('<%=request.getAttribute("email")%>')">요청</button>
+	          	<input type="text" id="friendName" placeholder="이메일을 입력해주세요"><button onclick="findFriend()">요청</button>
 	        </div>
 	      </div>
 	      <div class="card">
@@ -292,7 +306,7 @@ function friendOK(ID){
 		    const snapshot = await friendCollectionRef
 		      .where("areWeFriend", "==", false)
 		      .where("from", "==",id )
-		      .where("to", "==",'${email}')
+		      .where("to", "==",memail)
 		      .get();
 
 		    snapshot.forEach(async (doc) => {
@@ -316,7 +330,7 @@ function friendNO(ID){
 		    const snapshot = await friendCollectionRef
 		      .where("areWeFriend", "==", false)
 		      .where("from", "==", id)
-		      .where("to", "==", '${email}')
+		      .where("to", "==", memail)
 		      .get();
 
 		    snapshot.forEach(async (doc) => {
@@ -335,25 +349,55 @@ function friendNO(ID){
 		deleteFriendDocuments(ID);
 }
 
+function friendDel(ID,point){
+	if(point=="to"){
+		deleteFriendDocuments(ID,"from","to");
+	}else{
+		deleteFriendDocuments(ID,"to","from");
+	}
+	async function deleteFriendDocuments(id,A,B) {
+		  try {
+		    const friendCollectionRef = db.collection("friend");
+		    const snapshot = await friendCollectionRef
+		      .where("areWeFriend", "==", true)
+		      .where(A, "==", id)
+		      .where(B, "==", memail)
+		      .get();
+
+		    snapshot.forEach(async (doc) => {
+		      const documentRef = friendCollectionRef.doc(doc.id);
+		      await documentRef.delete();
+		      location.reload();
+		    });
+
+		    console.log("조건에 맞는 친구 문서를 성공적으로 삭제했습니다.");
+		  } catch (error) {
+		    console.error("친구 문서 삭제 중 오류 발생:", error);
+		  }
+		}
+
+		// 문서 삭제 함수 호출
+}
+
 
 $(document).ready(function() {
 	function friendlist(){
 		db.collection('friend').get().then((test) => {
 		      test.forEach((doc) => {
-		        if (doc.data().areWeFriend == true && doc.data().from == '${email}') {
+		        if (doc.data().areWeFriend == true && doc.data().from == memail) {
 		        	let friendList = document.getElementById('friendList');
 		        	let list = document.createElement('li');
-		        	list.innerHTML=doc.data().to+"  "+"<button onclick=share("+"'"+doc.data().to+"'"+")>공유하기</button>";
+		        	list.innerHTML=doc.data().to+"  "+"<button onclick=share("+"'"+doc.data().to+"'"+")>공유하기</button> <button onclick=friendDel("+"'"+doc.data().to+"'"+",'from')>친구삭제</button>";
 		        	friendList.appendChild(list);
 		        	
 		        }
-		        else if(doc.data().areWeFriend == true && doc.data().to== '${email}'){
+		        else if(doc.data().areWeFriend == true && doc.data().to== memail){
 		        	let friendList = document.getElementById('friendList');
 		        	let list = document.createElement('li');
-		        	list.innerHTML=doc.data().from+"  "+"<button onclick=share("+"'"+doc.data().from+"'"+")>공유하기</button>";
+		        	list.innerHTML=doc.data().from+"  "+"<button onclick=share("+"'"+doc.data().from+"'"+")>공유하기</button> <button onclick=friendDel("+"'"+doc.data().from+"'"+",'to')>친구삭제</button>";
 		        	friendList.appendChild(list);
 		        }
-		        else if(doc.data().areWeFriend == false && doc.data().to=='${email}'){
+		        else if(doc.data().areWeFriend == false && doc.data().to== memail){
 		        	let friendList = document.getElementById('friendRequest');
 		        	let list = document.createElement('li');
 		        	list.innerHTML=doc.data().from+"  "+"<button onclick=friendOK("+"'"+doc.data().from+"'"+")>수락</button><button onclick=friendNO("+"'"+doc.data().from+"'"+")>거절</button>";

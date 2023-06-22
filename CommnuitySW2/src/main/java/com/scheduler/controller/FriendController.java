@@ -22,15 +22,14 @@ import net.sf.json.JSONArray;
 public class FriendController {
 
 	@GetMapping("/friend")
-	public String returnPage(HttpSession session,Model model) {
+	public String returnPage(Model model) {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		model.addAttribute("showSchedule",list);
 		return "friend";
 	}
 	
 	@PostMapping("/friend")
-	public String returningSchedule(HttpSession session,HttpServletRequest request,Model model) throws Exception {
+	public String returningSchedule(HttpServletRequest request,Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
 			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
@@ -47,7 +46,6 @@ public class FriendController {
 		 }
 		model.addAttribute("friendEmail",(String)request.getParameter("arg2"));
 		model.addAttribute("showSchedule",list); 
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		  
 		return "friend";
 	}
