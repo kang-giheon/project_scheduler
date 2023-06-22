@@ -41,7 +41,7 @@
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">마이페이지</a>
 			<ul class="collapse list-unstyled" id="pageSubmenu">
 				<li><a id="mypage" href="/controller/mypage">내 정보 수정</a></li>
-				<li><a id="scheduler" href="/controller/lookup">나의 스케줄러</a></li>
+				<li><a id="scheduler" href="/controller/lookup?param1=menu">나의 스케줄러</a></li>
 				<li><a id="friend" href="/controller/friend">친구</a>
 			</ul>
 		</li>

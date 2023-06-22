@@ -185,7 +185,7 @@
 	        </blockquote>
 	      </div>
 	    </div>
-	    <div class="div-fl">
+	    <div class="div-fr">
 	      <div class="card">
 	        <div class="card-block" id='notice'>
 	          <h2 class="card-title">공지사항</h2>

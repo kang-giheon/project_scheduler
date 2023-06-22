@@ -117,18 +117,9 @@
 			  }
 			});
 		});
-    	
-		function emailCheck(){
-			$.ajax({
-				data :{ email : $('#email').val()},
-				url : "./login",
-				type : "POST"
-			});
-		}
 	    //로그인 성공했을 때
 	    function loginSuccess(firebaseUser){
 	        alert("로그인 성공");
-			emailCheck();
 	    	//메인 페이지로 이동
 	   		window.location.href = "/controller"
 	    }

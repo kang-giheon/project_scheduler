@@ -26,7 +26,7 @@ public class PopupController {
 	
 	
 	@PostMapping
-	public String showPopup(HttpSession session,HttpServletRequest request, Model model) throws Exception {
+	public String showPopup(HttpServletRequest request, Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
 			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
@@ -47,15 +47,13 @@ public class PopupController {
 		obj.setEndDate(request.getParameter("arg3"));
 		model.addAttribute("obj",obj);
 		model.addAttribute("schedule",list);
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		
 		return "schedulePopup";
 	}
 	
 	@PostMapping("/update")
-	public String updateSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
+	public String updateSchedule(@ModelAttribute ScheduleDTOImpl sc,Model model) {
 		model.addAttribute("obj",sc);
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		return "updateSchedule";
 	}
 }

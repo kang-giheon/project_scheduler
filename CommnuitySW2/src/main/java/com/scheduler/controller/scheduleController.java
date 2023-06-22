@@ -24,14 +24,12 @@ public class scheduleController {
 
 	
 	@GetMapping("/lookup")
-	public String lookup(HttpSession session, Model model) {
-		String email = (String)session.getAttribute("email");
-		model.addAttribute("email",email);
+	public String lookup() {
 		return "lookup";
 	}
 	
 	@PostMapping("/schedule")
-	public String returningSchedule(HttpSession session,HttpServletRequest request,Model model) throws Exception {
+	public String returningSchedule(HttpServletRequest request,Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
 			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
@@ -42,17 +40,15 @@ public class scheduleController {
 		    	  dto.setStartDate(memberInfo.get("startDate").toString());
 		    	  dto.setEndDate(memberInfo.get("endDate").toString());
 		    	  dto.setMemo(memberInfo.get("memo").toString());
-		    	  if(memberInfo.get("color")!=null) {
-		    		  
-		    		  System.out.println(memberInfo.get("memo").toString()+"수정");
+		    	  if(memberInfo.get("color")!=null) {		    		  
 		    		  dto.setColor(memberInfo.get("color").toString());
 		    	  }
 		    	  list.add(dto);
 		      }  
 		  } catch (Exception e) {
 		 }
+		model.addAttribute("menu",request.getParameter("arg2"));
 		model.addAttribute("showSchedule",list); 
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		  
 		return "schedule";
 	}
