@@ -41,7 +41,8 @@
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">마이페이지</a>
 			<ul class="collapse list-unstyled" id="pageSubmenu">
 				<li><a id="mypage" href="/controller/mypage">내 정보 수정</a></li>
-				<li><a id="scheduler" href="/controller/lookup">나의 스케줄러</a></li>
+				<li><a id="scheduler" href="/controller/lookup?param1=menu">나의 스케줄러</a></li>
+				<li><a id="friend" href="/controller/friend">친구</a>
 			</ul>
 		</li>
 	</ul>
@@ -56,7 +57,13 @@
 				<li><a href="/controller/info">정보게시판</a></li>
 			</ul>
 		</li>
+		<li>
+			<li id="ma" style="display:none;"><a href="/controller/manager" id='go'>관리자 페이지</a>	</li>
+		</li>
 	</ul>
+	
+	
+	
 	<div class="sidebar-footer">
 		<p class="social-icons">
 			<a target="_blank" href="#"><i class="fa fa-youtube"></i></a>
@@ -71,7 +78,10 @@
 		var app = firebase.initializeApp(firebaseConfig);
  	    firebaseEmailAuth = app.auth();
 	    firebaseDatabase = app.database();
- 	    
+
+	    var manager = "";
+		var memail = "";
+		
 		userSessionCheck();
 
        function userSessionCheck(){
@@ -79,10 +89,28 @@
     		   if(user){
     				   document.getElementById('logged-in').textContent="로그아웃";
     				   document.getElementById('logged-in').href="/controller";
+    				   
+    				   memail = user.email;
+    				   console.log(memail);
+    				   
+    				   db.collection('users').get().then((test)=>{
+    						test.forEach((doc)=>{
+		    				   if(memail == doc.data().email){
+									manager = doc.data().manager;
+									console.log(manager);
+									if(manager == '1'){
+										document.getElementById("ma").style.display ='block';
+						  			} else {
+						  				document.getElementById("ma").style.display ='none';
+						  			}
+								}	
+    		   				})
+    				   })
     		   }
     		   else {
     				document.getElementById('mypage').href="/controller/login";
     			   	document.getElementById('scheduler').href="/controller/login";
+    			   	document.getElementById('friend').href="/controller/login";
     		   }
     		})
     	 }
@@ -96,7 +124,35 @@
        		})
 	      });
 	    });
-     
+
+	
+	$(document).on('click','#go',function(){
+		
+		firebase.auth().onAuthStateChanged(function(user) {
+  			if (user) {
+  				memail = user.email;
+				
+				db.collection('users').get().then((test)=>{
+					test.forEach((doc)=>{
+						if(memail == doc.data().email){
+							manager = doc.data().manager;
+							console.log(manager);
+							//if(manager == '1'){
+							//	document.getElementById("ma").style.display ='block';
+				  			//}else{
+				  			//	alert("관리자만 접근 가능합니다");
+				  			//}
+						}	
+					})
+				})
+  			}else{
+  				alert("로그인 하세요.")	
+  			}
+  			
+		});
+		
+		
+	});
 	</script>
 	
 	<script src="./resources/js/jquery.js"></script>

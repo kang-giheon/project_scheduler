@@ -24,11 +24,13 @@
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
 	<script>
-	var firebaseDatabase;
+	
+	//---------------------------------
+	//var firebaseDatabase;
 
 	var app = firebase.initializeApp(firebaseConfig);
-
 	const db = app.firestore();
+	
 	async function fetchDocumentsBetweenDates(userUID,start,end) {
 		  try {
 				const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
@@ -50,13 +52,13 @@
     					documents[i++] = documentData;
     				}
 		    	});
-				console.log(documents);
+
 				for(let i in documents){
 					var doc=documents[i];
 					let form = document.getElementById('form');
 					let scdlist = document.createElement('p');
 					let br = document.createElement('br');
-					//scdlist.setAttribute('type','checkbox');
+					scdlist.setAttribute('type','checkbox');
 					const memo = doc["memo"];
 					const sub = doc["subject"];
 					scdlist.innerHTML=memo;
@@ -74,12 +76,94 @@
 		var id = '${email}';
 		var date = new Date();
 		var today =  date.toISOString().substring(0,10);
-		var tomorrow = new Date(date.setDate(date.getDate()+1)).toISOString().substring(0,10);;
-		console.log(id);
-		console.log(tomorrow);
-		fetchDocumentsBetweenDates(id,today,tomorrow)
+		var tomorrow = new Date(date.setDate(date.getDate()+1)).toISOString().substring(0,10);
+		fetchDocumentsBetweenDates(id,today,tomorrow);
 	});
 	}
+	
+	var html = '';
+	var cnt = 0;
+	var positon = -1;
+	var slhtml = '';
+	db.collection('infoboard').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			html += '<br><a href="infoview?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
+			console.log(html);
+		})
+		
+	}).then(() => {
+		for(var i = 0; i< html.length; i++){
+			if(html[i] == 'b' && html[i+1] == 'r'){
+				cnt++;
+				if(cnt ==11){
+					position = i;
+					break;
+				}
+			}
+		}
+		console.log(position);
+		slhtml = html.slice(0,position - 1);
+		console.log(slhtml);
+		$("#info").append(slhtml);
+    });
+	
+	var freehtml = '';
+	var slfreehtml = '';
+	var frcnt = 0;
+	var frpo = -1;
+	db.collection('board').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			freehtml += '<br><a href="view?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
+			
+		})
+	;
+	}).then(() => {
+		for(var i = 0; i< freehtml.length; i++){
+			if(html[i] == 'b' && html[i+1] == 'r'){
+				cnt++;
+				if(cnt ==11){
+					frpo = i;
+					break;
+				}
+			}
+		}
+		console.log(frpo);
+		slfreehtml = freehtml.slice(0,position - 1);
+		console.log(slfreehtml);
+		$("#free").append(slfreehtml);
+    });
+	
+	
+	var noticehtml = '';
+	var slnoticehtml = '';
+	var nocnt = 0;
+	var nopo = -1;
+	db.collection('noticeboard').get().then((test)=>{
+		test.forEach((doc)=>{
+			console.log(doc.data());
+			noticehtml += '<br><a href="noticeview?content=' +doc.data().content + '&date=' +doc.data().date +  '&username=' +doc.data().username +  '&viewcnt=' +doc.data().viewcnt +  '&title='+doc.data().title + ' ">' + doc.data().title+'</br>';
+
+		})
+	;
+	}).then(() => {
+		for(var i = 0; i< noticehtml.length; i++){
+			if(noticehtml[i] == 'b' && noticehtml[i+1] == 'r'){
+				nocnt++;
+				if(nocnt ==11){
+					nopo = i;
+					break;
+				}
+			}
+		}
+		console.log(nopo);
+		slnoticehtml = noticehtml.slice(0,position - 1);
+		console.log(slnoticehtml);
+		$("#notice").append(slnoticehtml);
+    });
+
+
 	</script>
 </head>
 <body>
@@ -96,27 +180,28 @@
 	        <blockquote class="card-block card-blockquote">
 	        	<h2 class="card-title">Scheduler</h2>
 	          	<p><form id="form" method="get" action="CheckboxServlet">
+	          	
 				</form></p>
 	        </blockquote>
 	      </div>
 	    </div>
-	    <div class="div-fl">
+	    <div class="div-fr">
 	      <div class="card">
-	        <div class="card-block">
+	        <div class="card-block" id='notice'>
 	          <h2 class="card-title">공지사항</h2>
-	          <p class="card-text">- 공지사항 1 <br> - 공지사항 2 <br> - 공지사항 3</p>
+	          
 	        </div>
 	      </div>
 	      <div class="card">
-	        <div class="card-block">
+	        <div class="card-block" id='free'>
 	          <h2 class="card-title">자유게시판</h2>
-	          <p class="card-text">- 게시글 1 <br> - 게시글 2 <br> - 게시글 3 <br> - 게시글 4 <br> - 게시글 5 </p>
+	          
 	        </div>
 	      </div>
 	      <div class="card">
-	        <div class="card-block">
+	        <div class="card-block" id='info'>
 	          <h2 class="card-title">정보게시판</h2>
-	          <p class="card-text">- 게시글 1 <br> - 게시글 2 <br> - 게시글 3 <br> - 게시글 4 <br> - 게시글 5 </p>
+	          
 	        </div>
 	      </div>
 	    </div>

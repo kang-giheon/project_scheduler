@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.scheduler.dto.ScheduleDTOImpl;
-import com.scheduler.service.ScheduleService;
 
 import net.sf.json.JSONArray;
 
@@ -25,11 +24,9 @@ import net.sf.json.JSONArray;
 @Controller
 public class PopupController {
 	
-	@Resource
-	private ScheduleService service;
 	
 	@PostMapping
-	public String showPopup(HttpSession session,HttpServletRequest request, Model model) throws Exception {
+	public String showPopup(HttpServletRequest request, Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
 			  List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
@@ -40,6 +37,7 @@ public class PopupController {
 		    	  dto.setStartDate(memberInfo.get("startDate").toString());
 		    	  dto.setEndDate(memberInfo.get("endDate").toString());
 		    	  dto.setMemo(memberInfo.get("memo").toString());
+		    	  
 		    	  list.add(dto);
 		      }
 		  }catch (Exception e) {
@@ -49,30 +47,13 @@ public class PopupController {
 		obj.setEndDate(request.getParameter("arg3"));
 		model.addAttribute("obj",obj);
 		model.addAttribute("schedule",list);
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		
 		return "schedulePopup";
 	}
 	
-	@PostMapping("/add")
-	public Map<Object,Object> addSchedule(@RequestBody ScheduleDTOImpl sc) throws Exception{
-		Map<Object,Object>map = new HashMap<Object,Object>();
-		service.addSchedule(sc);
-		
-		return map;
-	}
-	
 	@PostMapping("/update")
-	public String updateSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
-		
+	public String updateSchedule(@ModelAttribute ScheduleDTOImpl sc,Model model) {
 		model.addAttribute("obj",sc);
-		model.addAttribute("email",(String)session.getAttribute("email"));
 		return "updateSchedule";
-	}
-	@PostMapping("/delete")
-	public String deleteSchedule(HttpSession session,@ModelAttribute ScheduleDTOImpl sc,Model model) {
-		model.addAttribute("obj",sc);
-		model.addAttribute("email",(String)session.getAttribute("email"));
-		return "deleteSchedule";
 	}
 }

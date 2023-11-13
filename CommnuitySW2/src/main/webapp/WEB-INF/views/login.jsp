@@ -62,13 +62,37 @@
 	  // TODO: Add SDKs for Firebase products that you want to use
 	  // https://firebase.google.com/docs/web/setup#available-libraries
 
+		function initializeFirebaseApp() {
+  			const firebaseConfig = {
+				apiKey: "AIzaSyAMdQA_jrY0hk_ArysLnChF-ZnV8gNck3Q",
+	    		authDomain: "project-scheduler-49a32.firebaseapp.com",
+	    		databaseURL: "https://project-scheduler-49a32-default-rtdb.asia-southeast1.firebasedatabase.app",
+	    		projectId: "project-scheduler-49a32",
+	    		storageBucket: "project-scheduler-49a32.appspot.com",
+	    		messagingSenderId: "101057802314",
+	    		appId: "1:101057802314:web:6d2f6e45360e95029f36b3",
+	    		measurementId: "G-J5QE542RCT"
+  			};
+
+		 const app = firebase.initializeApp(firebaseConfig);
+		 const firebaseEmailAuth = app.auth();
+  		 const firebaseDatabase = app.database();
+  		 const database = getDatabase(app);
+
+ 		 return {
+    		firebaseEmailAuth,
+    		firebaseDatabase,
+    		database
+  			};
+		}
+
+
 		// Initialize Firebase
 
-		var app = firebase.initializeApp(firebaseConfig);
-	    var firebaseEmailAuth = app.auth();
-	    var firebaseDatabase = app.database();
-
-		const database = getDatabase(app);
+		const firebaseApp = initializeFirebaseApp();
+		const firebaseEmailAuth = firebaseApp.firebaseEmailAuth;
+		const firebaseDatabase = firebaseApp.firebaseDatabase;
+		const database = firebaseApp.database;
 
 	    //제이쿼리를 사용한다.
  	   $(document).ready(function(){
@@ -93,18 +117,9 @@
 			  }
 			});
 		});
-    	
-		function emailCheck(){
-			$.ajax({
-				data :{ email : $('#email').val()},
-				url : "./login",
-				type : "POST"
-			});
-		}
 	    //로그인 성공했을 때
 	    function loginSuccess(firebaseUser){
 	        alert("로그인 성공");
-			emailCheck();
 	    	//메인 페이지로 이동
 	   		window.location.href = "/controller"
 	    }

@@ -15,8 +15,22 @@
 // Initialize Firebase
 var app = firebase.initializeApp(firebaseConfig);
 
+var firebaseEmailAuth = app.auth();
 //Firestore DB 가져오기
 const db = app.firestore();
+
+var memail="";
+userMailSession()
+function userMailSession(){
+	   firebaseEmailAuth.onAuthStateChanged(function(user){
+		   if(user){ 				    				
+				   memail = user.email;
+		   }
+		   else {
+			   memail = "";
+		   }
+		})
+}
 
 async function updateDocument(userUID, documentID, newData) {
 	  try {
@@ -27,7 +41,8 @@ async function updateDocument(userUID, documentID, newData) {
 		
 	    
 	    console.log("문서 수정 완료");
-	    opener.location.href="./lookup";
+	    opener.location.href="../lookup";
+	    opener.parent.location.reload();
 	    window.close();
 	  } catch (error) {
 	    console.error("문서 수정 중 오류 발생:", error);
@@ -50,7 +65,7 @@ async function fetchDocumentId(userUID, subject,startDate,endDate,memo,newData) 
 	  } 
 }
 
-function check(userID){
+function check(){
 	const sbj='${obj.getSubject()}';
 	const strDate='${obj.getStartDate()}';
 	const edDate='${obj.getEndDate()}';
@@ -60,14 +75,9 @@ function check(userID){
 	const newEnd=document.getElementsByName('endDate')[0].value;
 	const newMem=document.getElementsByName('memo')[0].value;
 	const newData = {subject : newSub, startDate : newStr, endDate : newEnd, memo : newMem };
-	fetchDocumentId(userID,sbj,strDate,edDate,mem,newData);
+	console.log(newData);
+	fetchDocumentId(memail,sbj,strDate,edDate,mem,newData);
 }
-
-// 문서 ID 조회 함수 호출 (userUID는 실제 값으로 대체해야 함)
-//const userUID = "userUID"; // 실제 사용자 UID로 대체
-
-//fetchDocumentId(userUID);
-
 </script>
 </head>
 <body>
@@ -88,7 +98,7 @@ function check(userID){
 			<br>
 			</div>
 		</form>
-		<button onclick="check('<%=request.getAttribute("email")%>');" >추가</button>
+		<button onclick="check();" >추가</button>
 	</div>
 
 </body>

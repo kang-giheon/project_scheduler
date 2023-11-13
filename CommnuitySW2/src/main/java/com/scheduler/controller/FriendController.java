@@ -1,11 +1,9 @@
 package com.scheduler.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,21 +12,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.scheduler.dto.ScheduleDTOImpl;
-import net.sf.json.JSONArray; 
 
+import net.sf.json.JSONArray;
+
+@RequestMapping
 @Controller
-public class scheduleController {
+public class FriendController {
 
-	
-	@GetMapping("/lookup")
-	public String lookup() {
-		return "lookup";
+	@GetMapping("/friend")
+	public String returnPage(Model model) {
+		List<ScheduleDTOImpl> list = new ArrayList<>();
+		model.addAttribute("showSchedule",list);
+		return "friend";
 	}
 	
-	@PostMapping("/schedule")
+	@PostMapping("/friend")
 	public String returningSchedule(HttpServletRequest request,Model model) throws Exception {
 		List<ScheduleDTOImpl> list = new ArrayList<>();
 		  try {
@@ -40,16 +40,13 @@ public class scheduleController {
 		    	  dto.setStartDate(memberInfo.get("startDate").toString());
 		    	  dto.setEndDate(memberInfo.get("endDate").toString());
 		    	  dto.setMemo(memberInfo.get("memo").toString());
-		    	  if(memberInfo.get("color")!=null) {		    		  
-		    		  dto.setColor(memberInfo.get("color").toString());
-		    	  }
 		    	  list.add(dto);
 		      }  
 		  } catch (Exception e) {
 		 }
-		model.addAttribute("menu",request.getParameter("arg2"));
+		model.addAttribute("friendEmail",(String)request.getParameter("arg2"));
 		model.addAttribute("showSchedule",list); 
 		  
-		return "schedule";
+		return "friend";
 	}
 }

@@ -58,8 +58,21 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 	// Initialize Firebase
 	var app = firebase.initializeApp(firebaseConfig);
 
+	var firebaseEmailAuth = app.auth();
 	const db = app.firestore();
 	
+	var memail="";
+	userMailSession()
+	function userMailSession(){
+ 	   firebaseEmailAuth.onAuthStateChanged(function(user){
+ 		   if(user){ 				    				
+ 				   memail = user.email;
+ 		   }
+ 		   else {
+ 			   memail = "";
+ 		   }
+ 		})
+ 	 }
 	async function fetchDocumentsBetweenDates(userUID,start,end) {
 		  try {
 				const collectionRef = db.collection('schedules').doc(userUID).collection('schedule');
@@ -105,7 +118,10 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
       				{
       					title : "<%=dto.getSubject()%>",
       					start : "<%=dto.getStartDate()%>",
-      					end : "<%=dto.getEndDate()%>"
+      					end : "<%=dto.getEndDate()%>",
+      					<%if(dto.getColor()!=null){%>
+      					color : "<%=dto.getColor()%>"
+      					<%}%>
       				},
       				<%
       				}
@@ -117,8 +133,8 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
         			}
       		],
       		select: function(info) {
-      			if("<%=request.getAttribute("email")%>"!="null"){
-      				fetchDocumentsBetweenDates("<%=request.getAttribute("email")%>",info.startStr,info.endStr);
+      			if(memail!=""){
+      				fetchDocumentsBetweenDates(memail,info.startStr,info.endStr);
       			}else{
       				alert("로그인해주세요.");
       			}
@@ -131,15 +147,20 @@ List<ScheduleDTOImpl> list = (ArrayList<ScheduleDTOImpl>)request.getAttribute("s
 </script>	
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/menu.jsp"></jsp:include>
-	<div>
-	  <div id='calendar' style="position : relative;">
-	  </div>
-	  <form name="frmPopup" method="post">
-		<input type="hidden" name="arg1">
-		<input type="hidden" name="arg2">
-		<input type="hidden" name="arg3">
-	  </form>
+	<div class="wrapper">
+		<c:if test="${menu eq 'menu'}">
+    		<!-- menu가 'menu'인 경우에만 include -->
+    		<jsp:include page="/WEB-INF/views/menu.jsp"/>
+		</c:if>
+		<div id="content">
+	  		<div id='calendar' style="position : relative;">
+	  	</div>
+	  	<form name="frmPopup" method="post">
+			<input type="hidden" name="arg1">
+			<input type="hidden" name="arg2">
+			<input type="hidden" name="arg3">
+	  	</form>
+		</div>
 	</div>
 	<script src="./resources/js/jquery.js"></script>
 	<script src="./resources/js/tether.min.js"></script>
