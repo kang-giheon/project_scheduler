@@ -78,8 +78,6 @@
 	});
 
 
-
-
 	//boarddata 값 출력
 	var viewcnt = params.viewcnt;
 	var username = params.username;
